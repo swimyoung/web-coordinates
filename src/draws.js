@@ -13,29 +13,31 @@ export function drawCoordinate(canvas, unit, color, withUnitText = false) {
     const y = index * unit;
 
     if (y !== 0 && withUnitText) {
+      ctx.save();
       ctx.strokeStyle = '#ffffff';
       ctx.fillText(y, 0, y + 10);
+      ctx.restore();
     }
-    ctx.moveTo(0, y);
-    ctx.strokeStyle = color;
-    ctx.lineTo(width, y);
-    ctx.stroke();
-  });
 
+    ctx.moveTo(0, y);
+    ctx.lineTo(width, y);
+  });
   // Columns
   Array.from({ length: Math.ceil(width / unit) }).forEach((_, index) => {
     const x = index * unit;
 
     if (x !== 0 && withUnitText) {
+      ctx.save();
       ctx.strokeStyle = '#ffffff';
       ctx.fillText(x, x, 10);
+      ctx.restore();
     }
+
     ctx.moveTo(x, 0);
-    ctx.strokeStyle = color;
     ctx.lineTo(x, height);
-    ctx.stroke();
   });
-  ctx.closePath();
+
+  ctx.stroke();
 }
 
 export function drawWindowDimension(canvas) {
@@ -45,16 +47,15 @@ export function drawWindowDimension(canvas) {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.beginPath();
   ctx.lineWidth = 1;
-  ctx.strokeStyle = '#ff0000';
-  ctx.font = `bold 14px 'Courier New', Courier, monospace`;
+  ctx.strokeStyle = '#e4f8e1';
+  ctx.font = `14px 'Courier New', Courier, monospace`;
 
   ctx.save();
   ctx.fillText(`innerWidth:${innerWidth}`, pageXOffset + 30, pageYOffset + 35);
-  ctx.rotate(getAngleOfDegree(90));
   ctx.fillText(
     `innerHeight:${innerHeight}`,
-    pageYOffset + 35,
-    -30 - pageXOffset,
+    pageXOffset + 30,
+    pageYOffset + 50,
   );
   ctx.restore();
 
@@ -63,9 +64,7 @@ export function drawWindowDimension(canvas) {
   ctx.lineTo(pageXOffset + innerWidth, pageYOffset + gap);
   ctx.moveTo(pageXOffset + gap, pageYOffset);
   ctx.lineTo(pageXOffset + gap, pageYOffset + innerHeight);
-
   ctx.stroke();
-  ctx.closePath();
 }
 
 function getAngleOfDegree(degree) {
