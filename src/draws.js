@@ -51,11 +51,21 @@ export function drawWindowDimension(canvas) {
   ctx.font = `14px 'Courier New', Courier, monospace`;
 
   ctx.save();
-  ctx.fillText(`innerWidth:${innerWidth}`, pageXOffset + 30, pageYOffset + 35);
+  ctx.fillText(`innerWidth: ${innerWidth}`, pageXOffset + 30, pageYOffset + 35);
   ctx.fillText(
-    `innerHeight:${innerHeight}`,
+    `innerHeight: ${innerHeight}`,
     pageXOffset + 30,
     pageYOffset + 50,
+  );
+  ctx.fillText(
+    `pageXOffset: ${pageXOffset}`,
+    pageXOffset + 30,
+    pageYOffset + 65,
+  );
+  ctx.fillText(
+    `pageYoffset: ${pageYOffset}`,
+    pageXOffset + 30,
+    pageYOffset + 80,
   );
   ctx.restore();
 
