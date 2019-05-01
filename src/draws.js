@@ -2,7 +2,7 @@ export function drawCoordinate(canvas, unit, color, withUnitText = false) {
   const { width, height } = canvas;
   const ctx = canvas.getContext('2d');
 
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.clearRect(0, 0, width, height);
   ctx.beginPath();
   ctx.lineWidth = 1;
   ctx.strokeStyle = color;
@@ -41,42 +41,19 @@ export function drawCoordinate(canvas, unit, color, withUnitText = false) {
 }
 
 export function drawWindowDimension(canvas) {
+  const { width, height } = canvas;
   const ctx = canvas.getContext('2d');
   const { innerWidth, innerHeight, pageXOffset, pageYOffset } = window;
 
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.clearRect(0, 0, width, height);
   ctx.beginPath();
   ctx.lineWidth = 1;
-  ctx.strokeStyle = '#e4f8e1';
+  ctx.strokeStyle = '#3d7e9a';
   ctx.font = `14px 'Courier New', Courier, monospace`;
 
-  ctx.save();
-  ctx.fillText(`innerWidth: ${innerWidth}`, pageXOffset + 30, pageYOffset + 35);
-  ctx.fillText(
-    `innerHeight: ${innerHeight}`,
-    pageXOffset + 30,
-    pageYOffset + 50,
-  );
-  ctx.fillText(
-    `pageXOffset: ${pageXOffset}`,
-    pageXOffset + 30,
-    pageYOffset + 65,
-  );
-  ctx.fillText(
-    `pageYoffset: ${pageYOffset}`,
-    pageXOffset + 30,
-    pageYOffset + 80,
-  );
-  ctx.restore();
-
-  const gap = 20;
-  ctx.moveTo(pageXOffset, pageYOffset + gap);
-  ctx.lineTo(pageXOffset + innerWidth, pageYOffset + gap);
-  ctx.moveTo(pageXOffset + gap, pageYOffset);
-  ctx.lineTo(pageXOffset + gap, pageYOffset + innerHeight);
-  ctx.stroke();
-}
-
-function getAngleOfDegree(degree) {
-  return (degree * Math.PI) / 180;
+  const x = pageXOffset + innerWidth / 2 - 100;
+  ctx.fillText(`innerWidth: ${innerWidth}`, x, pageYOffset + 35);
+  ctx.fillText(`innerHeight: ${innerHeight}`, x, pageYOffset + 50);
+  ctx.fillText(`pageXOffset: ${pageXOffset}`, x, pageYOffset + 65);
+  ctx.fillText(`pageYoffset: ${pageYOffset}`, x, pageYOffset + 80);
 }
