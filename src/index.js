@@ -4,6 +4,7 @@ import {
   drawWindowDimension,
   drawBoxesDimension,
 } from './draws';
+import { LARGE_CONTENT } from './constants';
 
 const BOX_COUNT = 1;
 
@@ -61,15 +62,20 @@ function renderBox(boundingRect, callback) {
   const element = document.createElement('div');
   element.style = `
       position: absolute;
-      width: 100px;
-      height: 100px;
+      width: 200px;
+      height: 200px;
       margin: 30px;
       border: 40px solid rgba(0, 0, 0, 0);
       padding: 50px;
+      overflow: auto;
       transform: translate(${Math.floor(
         Math.random() * window.innerWidth,
       )}px, ${Math.floor(Math.random() * window.innerHeight)}px)
     `;
+
+  element.addEventListener('scroll', () => {
+    callback(element);
+  });
 
   element.addEventListener('mousedown', event => {
     const { x, y, width, height } = element.getBoundingClientRect();
@@ -113,6 +119,18 @@ function renderBox(boundingRect, callback) {
     window.addEventListener('mouseup', handleWindowMouseUp);
   });
 
+  element.innerHTML = `
+    ${LARGE_CONTENT}
+    <div 
+      style="
+        width: 100px; 
+        height: 100px; 
+        top: 300px; 
+        left: 500px; 
+        position: absolute;
+      "
+    >&#x1F649;</div>
+  `;
   document.body.appendChild(element);
 
   return element;

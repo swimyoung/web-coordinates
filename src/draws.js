@@ -96,7 +96,14 @@ export function drawBoxesDimension(canvas, boxOrBoxes) {
       width,
       height,
     } = box.getBoundingClientRect();
-    const { clientWidth, clientHeight, clientTop, clientLeft } = box;
+    const {
+      clientWidth,
+      clientHeight,
+      clientTop,
+      clientLeft,
+      scrollTop,
+      scrollLeft,
+    } = box;
     const [border, margin, padding] = Object.entries(
       window.getComputedStyle(box),
     )
@@ -115,13 +122,13 @@ export function drawBoxesDimension(canvas, boxOrBoxes) {
       height + margin * 2,
     );
     ctx.fillStyle = '#000000';
-    ctx.fillText(`margin:${margin}px`, x - margin, y - margin);
+    ctx.fillText(`margin:${margin}`, x - margin, y - margin);
 
     // border edge
     ctx.fillStyle = 'rgba(88, 46, 155, 0.2)';
     ctx.fillRect(x, y, width, height);
     ctx.fillStyle = '#000000';
-    ctx.fillText(`border:${border}px`, x, y);
+    ctx.fillText(`border:${border}`, x, y);
 
     // clientTop & clientLeft
     ctx.beginPath();
@@ -131,9 +138,9 @@ export function drawBoxesDimension(canvas, boxOrBoxes) {
     ctx.moveTo(x, y + border + height - border * 2);
     ctx.lineTo(x + border, y + border + height - border * 2);
     ctx.stroke();
-    ctx.fillText(`clientTop:${clientTop}px`, x + width - border, y - 2);
+    ctx.fillText(`clientTop:${clientTop}`, x + width - border, y - 2);
     ctx.fillText(
-      `clientLeft:${clientLeft}px`,
+      `clientLeft:${clientLeft}`,
       x - 90 - border,
       y + border + height - border * 2,
     );
@@ -147,7 +154,7 @@ export function drawBoxesDimension(canvas, boxOrBoxes) {
       height - border * 2,
     );
     ctx.fillStyle = '#000000';
-    ctx.fillText(`padding:${padding}px`, x + border, y + border - 2);
+    ctx.fillText(`padding:${padding}`, x + border, y + border - 2);
 
     // clientWidth & clientHeight
     ctx.strokeStyle = 'rgba(0, 0, 0, 0.7)';
@@ -159,12 +166,12 @@ export function drawBoxesDimension(canvas, boxOrBoxes) {
     );
     ctx.fillStyle = '#000000';
     ctx.fillText(
-      `clientWidth:${clientWidth}px`,
+      `clientWidth:${clientWidth}`,
       x + border,
       y + border + height - border * 2 + fontSize,
     );
     ctx.fillText(
-      `clientHeight:${clientHeight}px`,
+      `clientHeight:${clientHeight}`,
       x + border,
       y + border + height - border * 2 + fontSize * 2,
     );
@@ -179,14 +186,26 @@ export function drawBoxesDimension(canvas, boxOrBoxes) {
     );
     ctx.fillStyle = '#000000';
     ctx.fillText(
-      `w:${width - (padding + border) * 2}px`,
+      `w:${width - (padding + border) * 2}`,
+      x + padding + border,
+      y + padding + border - fontSize,
+    );
+    ctx.fillText(
+      `h:${height - (padding + border) * 2}`,
       x + padding + border,
       y + padding + border,
     );
+
+    // scroll offset
     ctx.fillText(
-      `h:${height - (padding + border) * 2}px`,
-      x + padding + border,
-      y + padding + border + fontSize,
+      `scrollTop:${scrollTop}`,
+      pageXOffset + clientRectX - 120 - margin,
+      y + padding + border - fontSize,
+    );
+    ctx.fillText(
+      `scrollLeft:${scrollLeft}`,
+      pageXOffset + clientRectX - 120 - margin,
+      y + padding + border,
     );
 
     // x, y of getBoundingClientRect
