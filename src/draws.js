@@ -1,4 +1,5 @@
 export function drawCoordinate(canvas, unit, color, withUnitText = false) {
+  const fontSize = 14;
   const { width, height } = canvas;
   const ctx = canvas.getContext('2d');
 
@@ -7,33 +8,28 @@ export function drawCoordinate(canvas, unit, color, withUnitText = false) {
   ctx.save();
   ctx.lineWidth = 1;
   ctx.strokeStyle = color;
-  ctx.font = `12px 'Courier New', Courier, monospace`;
+  ctx.font = `${fontSize}px 'Courier New', Courier, monospace`;
 
-  // Rows
   Array.from({ length: Math.ceil(height / unit) }).forEach((_, index) => {
     const y = index * unit;
-
     if (y !== 0 && withUnitText) {
       ctx.save();
       ctx.strokeStyle = '#ffffff';
-      ctx.fillText(y, 0, y + 10);
+      ctx.fillText(y, 0, y + fontSize);
       ctx.restore();
     }
-
     ctx.moveTo(0, y);
     ctx.lineTo(width, y);
   });
-  // Columns
+
   Array.from({ length: Math.ceil(width / unit) }).forEach((_, index) => {
     const x = index * unit;
-
     if (x !== 0 && withUnitText) {
       ctx.save();
       ctx.strokeStyle = '#ffffff';
-      ctx.fillText(x, x, 10);
+      ctx.fillText(x, x, fontSize);
       ctx.restore();
     }
-
     ctx.moveTo(x, 0);
     ctx.lineTo(x, height);
   });
@@ -43,6 +39,7 @@ export function drawCoordinate(canvas, unit, color, withUnitText = false) {
 }
 
 export function drawWindowDimension(canvas) {
+  const fontSize = 14;
   const { width, height } = canvas;
   const ctx = canvas.getContext('2d');
   const { innerWidth, innerHeight, pageXOffset, pageYOffset } = window;
@@ -51,12 +48,20 @@ export function drawWindowDimension(canvas) {
   ctx.save();
   ctx.lineWidth = 1;
   ctx.strokeStyle = '#3d7e9a';
-  ctx.font = `14px 'Courier New', Courier, monospace`;
-  const x = pageXOffset + 30;
-  ctx.fillText(`innerWidth:${innerWidth}`, x, pageYOffset + 35);
-  ctx.fillText(`innerHeight:${innerHeight}`, x, pageYOffset + 50);
-  ctx.fillText(`pageXOffset:${pageXOffset}`, x, pageYOffset + 65);
-  ctx.fillText(`pageYoffset:${pageYOffset}`, x, pageYOffset + 80);
+  ctx.font = `${fontSize}px 'Courier New', Courier, monospace`;
+  const texts = [
+    `innerWidth:${innerWidth}`,
+    `innerHeight:${innerHeight}`,
+    `pageXOffset:${pageXOffset}`,
+    `pageYoffset:${pageYOffset}`,
+  ];
+  texts.reverse().forEach((text, index) => {
+    ctx.fillText(
+      text,
+      pageXOffset + innerWidth - 150,
+      pageYOffset + innerHeight - 15 - index * fontSize,
+    );
+  });
   ctx.restore();
 }
 
