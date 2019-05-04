@@ -83,14 +83,22 @@ function renderBox(boundingRect, callback) {
 
     const handleWindowMouseMove = event => {
       const { pageX, pageY } = event;
+      const boxAreaWidth = width + margin * 2;
+      const boxAreaHeight = height + margin * 2;
       let x = baseX + pageX;
       let y = baseY + pageY;
 
-      if (x + width > boundingRect.width) x = boundingRect.width - width;
-      else if (x < 0) x = 0;
+      if (x + boxAreaWidth > boundingRect.width) {
+        x = boundingRect.width - boxAreaWidth;
+      } else if (x < 0) {
+        x = 0;
+      }
 
-      if (y + height > boundingRect.height) y = boundingRect.height - height;
-      else if (y < 0) y = 0;
+      if (y + boxAreaHeight > boundingRect.height) {
+        y = boundingRect.height - boxAreaHeight;
+      } else if (y < 0) {
+        y = 0;
+      }
 
       element.style.transform = `translate(${x}px, ${y}px)`;
       callback(element);
