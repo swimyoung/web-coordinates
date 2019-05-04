@@ -43,13 +43,18 @@ const BOX_COUNT = 1;
   drawWindowDimension(windowDimensionCanvas);
   drawBoxesDimension(boxDimensionCanvas, boxes);
 
-  window.addEventListener('resize', () => {
-    drawWindowDimension(windowDimensionCanvas);
-  });
-
-  window.addEventListener('scroll', () => {
-    drawWindowDimension(windowDimensionCanvas);
-  });
+  window.addEventListener(
+    'resize',
+    drawWindowDimension.bind(null, windowDimensionCanvas),
+  );
+  window.addEventListener(
+    'scroll',
+    drawWindowDimension.bind(null, windowDimensionCanvas),
+  );
+  window.addEventListener(
+    'mousemove',
+    drawWindowDimension.bind(null, windowDimensionCanvas),
+  );
 })();
 
 function renderBox(boundingRect, callback) {

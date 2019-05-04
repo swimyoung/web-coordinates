@@ -38,7 +38,7 @@ export function drawCoordinate(canvas, unit, color, withUnitText = false) {
   ctx.restore();
 }
 
-export function drawWindowDimension(canvas) {
+export function drawWindowDimension(canvas, event) {
   const fontSize = 14;
   const { width, height } = canvas;
   const ctx = canvas.getContext('2d');
@@ -62,6 +62,19 @@ export function drawWindowDimension(canvas) {
       pageYOffset + innerHeight - 15 - index * fontSize,
     );
   });
+  if (event) {
+    const { pageX, pageY, clientX, clientY } = event;
+    ctx.fillText(
+      `client: (${clientX}, ${clientY})`,
+      pageX + fontSize,
+      pageY + fontSize,
+    );
+    ctx.fillText(
+      `page: (${pageX}, ${pageY})`,
+      pageX + fontSize,
+      pageY + fontSize * 2,
+    );
+  }
   ctx.restore();
 }
 
