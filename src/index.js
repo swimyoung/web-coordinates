@@ -52,8 +52,8 @@ function renderBox(boundingRect, callback) {
       padding: 50px;
       overflow: auto;
       transform: translate(${Math.floor(
-        Math.random() * window.innerWidth,
-      )}px, ${Math.floor(Math.random() * window.innerHeight)}px)
+        Math.random() * (window.innerWidth / 2),
+      )}px, ${Math.floor(Math.random() * (window.innerHeight / 2))}px)
     `;
 
   element.addEventListener('scroll', () => {
