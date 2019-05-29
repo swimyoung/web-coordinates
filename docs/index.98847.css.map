@@ -1,1 +1,0 @@
-{"version":3,"sources":["webpack:///./src/index.css"],"names":[],"mappings":"AAAA;AACA;AACA;;AAEA;AACA;AACA;AACA;AACA","file":"index.98847.css","sourcesContent":["canvas {\n  position: absolute;\n}\n\n#size {\n  width: 2000px;\n  height: 2000px;\n  position: absolute;\n}\n"],"sourceRoot":""}
