@@ -38,46 +38,6 @@ export function drawCoordinate(canvas, unit, color, withUnitText = false) {
   ctx.restore();
 }
 
-export function drawWindowDimension(canvas, event) {
-  const fontSize = 14;
-  const { width, height } = canvas;
-  const ctx = canvas.getContext('2d');
-  const { innerWidth, innerHeight, pageXOffset, pageYOffset } = window;
-
-  ctx.clearRect(0, 0, width, height);
-  ctx.save();
-  ctx.lineWidth = 1;
-  ctx.strokeStyle = '#3d7e9a';
-  ctx.font = `${fontSize}px 'Courier New', Courier, monospace`;
-  const texts = [
-    `innerWidth:${innerWidth}`,
-    `innerHeight:${innerHeight}`,
-    `pageXOffset:${pageXOffset}`,
-    `pageYoffset:${pageYOffset}`,
-  ];
-  texts.reverse().forEach((text, index) => {
-    ctx.fillText(
-      text,
-      pageXOffset + innerWidth - 150,
-      pageYOffset + innerHeight - 15 - index * fontSize,
-    );
-  });
-  if (event) {
-    const { pageX, pageY, clientX, clientY } = event;
-    ctx.fillText(
-      `client: (${clientX}, ${clientY})`,
-      pageX + fontSize,
-      pageY + fontSize,
-    );
-    ctx.fillText(
-      `page: (${pageX}, ${pageY})`,
-      pageX + fontSize,
-      pageY + fontSize * 2,
-    );
-  }
-  ctx.restore();
-}
-
 export function drawBoxesDimension(canvas, boxOrBoxes) {
   const boxes = [].concat(boxOrBoxes);
   const { width, height } = canvas;

@@ -1,3 +1,7 @@
+pre {
+  font-size: 14px;
+}
+
 canvas {
   position: absolute;
 }

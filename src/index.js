@@ -1,21 +1,18 @@
 import './index.css';
-import {
-  drawCoordinate,
-  drawWindowDimension,
-  drawBoxesDimension,
-} from './draws';
+import { drawCoordinate, drawBoxesDimension } from './draws';
 import { LARGE_CONTENT } from './constants';
 
 const BOX_COUNT = 1;
 
 (async () => {
-  await new Promise(resolve => window.addEventListener('load', resolve));
+  await new Promise(resolve =>
+    window.addEventListener('DOMContentLoaded', resolve),
+  );
 
   const canvases = Array.from(document.getElementsByTagName('canvas'));
   const [
     unitTenCoordinateCanvas,
     unitHundredCoordinateCanvas,
-    windowDimensionCanvas,
     boxDimensionCanvas,
   ] = canvases;
 
@@ -25,12 +22,12 @@ const BOX_COUNT = 1;
     const { width, height } = window.getComputedStyle(elemSize);
     boundingRect = { width: parseInt(width), height: parseInt(height) };
   }
-  const handleBoxMove = () => {
-    drawBoxesDimension(boxDimensionCanvas, boxes);
-  };
   const boxes = Array.from({ length: BOX_COUNT }).map(() =>
-    renderBox(boundingRect, handleBoxMove),
+    renderBox(boundingRect, () =>
+      drawBoxesDimension(boxDimensionCanvas, boxes),
+    ),
   );
+  renderWindowDimension();
 
   const { width, height } = boundingRect;
   canvases.forEach(
@@ -41,21 +38,7 @@ const BOX_COUNT = 1;
 
   drawCoordinate(unitTenCoordinateCanvas, 10, '#eeeeee');
   drawCoordinate(unitHundredCoordinateCanvas, 100, '#777777', true);
-  drawWindowDimension(windowDimensionCanvas);
   drawBoxesDimension(boxDimensionCanvas, boxes);
-
-  window.addEventListener(
-    'resize',
-    drawWindowDimension.bind(null, windowDimensionCanvas),
-  );
-  window.addEventListener(
-    'scroll',
-    drawWindowDimension.bind(null, windowDimensionCanvas),
-  );
-  window.addEventListener(
-    'mousemove',
-    drawWindowDimension.bind(null, windowDimensionCanvas),
-  );
 })();
 
 function renderBox(boundingRect, callback) {
@@ -134,4 +117,60 @@ function renderBox(boundingRect, callback) {
   document.body.appendChild(element);
 
   return element;
+}
+
+function renderWindowDimension() {
+  const mousePositionElement = document.createElement('pre');
+  const windowBoxElement = document.createElement('pre');
+  const position = {};
+
+  mousePositionElement.style = windowBoxElement.style = `
+    position: absolute;
+    margin: 14px;
+  `;
+
+  window.addEventListener('resize', () => renderWindowBox());
+
+  window.addEventListener('scroll', () => {
+    renderWindowBox();
+
+    if (typeof position.clientX === 'undefined') return;
+    const { pageXOffset, pageYOffset } = window;
+    Object.assign(position, {
+      pageX: position.clientX + pageXOffset,
+      pageY: position.clientY + pageYOffset,
+    });
+    renderMousePosition(
+      position.clientX + pageXOffset,
+      position.clientY + pageYOffset,
+    );
+  });
+
+  window.addEventListener('mousemove', event => {
+    const { clientX, clientY, pageX, pageY } = event;
+    Object.assign(position, { clientX, clientY, pageX, pageY });
+    renderMousePosition(pageX, pageY);
+  });
+
+  const renderMousePosition = (x, y) => {
+    const { clientX, clientY, pageX, pageY } = position;
+    mousePositionElement.style.transform = `translate(${x}px, ${y}px)`;
+    mousePositionElement.textContent = `clientX: ${clientX}
+clientY: ${clientY}
+pageX: ${pageX}
+pageY: ${pageY}`;
+  };
+
+  const renderWindowBox = () => {
+    const { innerWidth, innerHeight, pageXOffset, pageYOffset } = window;
+    windowBoxElement.style.transform = `translate(${pageXOffset}px, ${pageYOffset}px)`;
+    windowBoxElement.textContent = `innerWidth:${innerWidth}
+innerHeight:${innerHeight}
+pageXOffset:${pageXOffset}
+pageYoffset:${pageYOffset}`;
+  };
+
+  document.body.appendChild(mousePositionElement);
+  document.body.appendChild(windowBoxElement);
+  renderWindowBox();
 }
