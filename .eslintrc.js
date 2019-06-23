@@ -1,47 +1,22 @@
 module.exports = {
-  root: true,
-  parser: 'babel-eslint',
   env: {
     es6: true,
     browser: false,
     node: true,
   },
-  extends: ['eslint:recommended', 'prettier'],
-  rules: {
-    'no-console': 'off',
-    quotes: [
-      'error',
-      'single',
-      {
-        allowTemplateLiterals: true,
-      },
-    ],
-    'max-len': [
-      'error',
-      {
-        code: 80,
-        ignoreUrls: true,
-        ignoreStrings: true,
-        ignoreTemplateLiterals: true,
-        ignoreRegExpLiterals: true,
-      },
-    ],
-    'prefer-destructuring': ['error', { object: true, array: true }],
-    'import/prefer-default-export': 'off',
+  parserOptions: {
+    ecmaVersion: 2019,
+    sourceType: 'module',
   },
+  extends: ['eslint:recommended', 'plugin:prettier/recommended'],
   overrides: [
     {
       files: ['**/*.spec.js'],
-      env: {
-        jest: true,
-      },
+      env: { jest: true },
     },
     {
       files: ['**/src/**/*.js'],
-      env: {
-        browser: true,
-        node: false,
-      },
+      env: { browser: true, node: false },
     },
   ],
 };
