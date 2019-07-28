@@ -13,10 +13,7 @@ export function drawCoordinate(canvas, unit, color, withUnitText = false) {
   Array.from({ length: Math.ceil(height / unit) }).forEach((_, index) => {
     const y = index * unit;
     if (y !== 0 && withUnitText) {
-      ctx.save();
-      ctx.strokeStyle = '#ffffff';
       ctx.fillText(y, 0, y + fontSize);
-      ctx.restore();
     }
     ctx.moveTo(0, y);
     ctx.lineTo(width, y);
@@ -25,10 +22,7 @@ export function drawCoordinate(canvas, unit, color, withUnitText = false) {
   Array.from({ length: Math.ceil(width / unit) }).forEach((_, index) => {
     const x = index * unit;
     if (x !== 0 && withUnitText) {
-      ctx.save();
-      ctx.strokeStyle = '#ffffff';
       ctx.fillText(x, x, fontSize);
-      ctx.restore();
     }
     ctx.moveTo(x, 0);
     ctx.lineTo(x, height);
@@ -171,10 +165,6 @@ export function drawBoxesDimension(canvas, boxOrBoxes) {
     // x, y of getBoundingClientRect
     ctx.strokeStyle = 'rgba(88, 46, 155, 0.7)';
     ctx.beginPath();
-    ctx.moveTo(pageXOffset, y);
-    ctx.lineTo(pageXOffset + clientRectX, y);
-    ctx.moveTo(x, pageYOffset);
-    ctx.lineTo(x, pageYOffset + clientRectY);
     ctx.stroke();
     ctx.fillText(
       `clientRectX:${clientRectX}`,
