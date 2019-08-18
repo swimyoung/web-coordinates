@@ -47,9 +47,9 @@ function renderBox(boundingRect, callback) {
       position: absolute;
       width: 200px;
       height: 200px;
-      margin: 30px;
-      border: 40px solid rgba(0, 0, 0, 0);
-      padding: 50px;
+      margin: 40px;
+      border: 50px solid rgba(0, 0, 0, 0);
+      padding: 60px;
       overflow: auto;
       transform: translate(${Math.floor(
         Math.random() * (window.innerWidth / 2),

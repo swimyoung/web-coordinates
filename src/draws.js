@@ -33,6 +33,7 @@ export function drawCoordinate(canvas, unit, color, withUnitText = false) {
 }
 
 export function drawBoxesDimension(canvas, boxOrBoxes) {
+  const TEXT_Y_GAP = 10;
   const boxes = [].concat(boxOrBoxes);
   const { width, height } = canvas;
   const { pageXOffset, pageYOffset } = window;
@@ -51,6 +52,8 @@ export function drawBoxesDimension(canvas, boxOrBoxes) {
       height,
     } = box.getBoundingClientRect();
     const {
+      offsetWidth,
+      offsetHeight,
       clientWidth,
       clientHeight,
       clientTop,
@@ -68,57 +71,52 @@ export function drawBoxesDimension(canvas, boxOrBoxes) {
     const y = clientRectY + pageYOffset;
 
     // margin edge
-    ctx.fillStyle = 'rgba(88, 46, 155, 0.2)';
-    ctx.fillRect(
+    ctx.setLineDash([15, 5]);
+    ctx.lineWidth = 3;
+    ctx.strokeRect(
       x - margin,
       y - margin,
       width + margin * 2,
       height + margin * 2,
     );
-    ctx.fillStyle = '#000000';
-    ctx.fillText(`margin:${margin}`, x - margin, y - margin);
+    ctx.fillText(`margin:${margin}`, x - margin, y - margin - TEXT_Y_GAP);
 
     // border edge
-    ctx.fillStyle = 'rgba(88, 46, 155, 0.2)';
-    ctx.fillRect(x, y, width, height);
-    ctx.fillStyle = '#000000';
-    ctx.fillText(`border:${border}`, x, y);
-
-    // clientTop & clientLeft
-    ctx.beginPath();
-    ctx.strokeStyle = 'rgba(0, 0, 0, 0.7)';
-    ctx.moveTo(x + width - border, y);
-    ctx.lineTo(x + width - border, y + border);
-    ctx.moveTo(x, y + border + height - border * 2);
-    ctx.lineTo(x + border, y + border + height - border * 2);
-    ctx.stroke();
-    ctx.fillText(`clientTop:${clientTop}`, x + width - border, y - 2);
-    ctx.fillText(
-      `clientLeft:${clientLeft}`,
-      x - 90 - border,
-      y + border + height - border * 2,
-    );
+    ctx.setLineDash([]);
+    ctx.strokeRect(x, y, width, height);
+    ctx.fillText(`border:${border}`, x, y - TEXT_Y_GAP);
 
     // padding edge
-    ctx.fillStyle = 'rgba(88, 46, 155, 0.2)';
-    ctx.fillRect(
-      x + border,
-      y + border,
-      width - border * 2,
-      height - border * 2,
-    );
-    ctx.fillStyle = '#000000';
-    ctx.fillText(`padding:${padding}`, x + border, y + border - 2);
-
-    // clientWidth & clientHeight
-    ctx.strokeStyle = 'rgba(0, 0, 0, 0.7)';
+    ctx.setLineDash([15, 5]);
+    ctx.lineWidth = 1;
     ctx.strokeRect(
       x + border,
       y + border,
       width - border * 2,
       height - border * 2,
     );
-    ctx.fillStyle = '#000000';
+    ctx.fillText(`padding:${padding}`, x + border, y + border - TEXT_Y_GAP);
+
+    // content
+    ctx.setLineDash([]);
+    ctx.strokeRect(
+      x + padding + border,
+      y + padding + border,
+      width - (padding + border) * 2,
+      height - (padding + border) * 2,
+    );
+    ctx.fillText(
+      `w:${width - (padding + border) * 2}`,
+      x + padding + border,
+      y + padding + border - fontSize - TEXT_Y_GAP,
+    );
+    ctx.fillText(
+      `h:${height - (padding + border) * 2}`,
+      x + padding + border,
+      y + padding + border - TEXT_Y_GAP,
+    );
+
+    // clientWidth & clientHeight
     ctx.fillText(
       `clientWidth:${clientWidth}`,
       x + border,
@@ -130,40 +128,23 @@ export function drawBoxesDimension(canvas, boxOrBoxes) {
       y + border + height - border * 2 + fontSize * 2,
     );
 
-    // content
-    ctx.fillStyle = 'rgba(88, 46, 155, 0.2)';
-    ctx.fillRect(
-      x + padding + border,
-      y + padding + border,
-      width - (padding + border) * 2,
-      height - (padding + border) * 2,
-    );
-    ctx.fillStyle = '#000000';
-    ctx.fillText(
-      `w:${width - (padding + border) * 2}`,
-      x + padding + border,
-      y + padding + border - fontSize,
-    );
-    ctx.fillText(
-      `h:${height - (padding + border) * 2}`,
-      x + padding + border,
-      y + padding + border,
-    );
+    // offsetWidth & offsetHeight
+    ctx.fillText(`offsetWidth:${offsetWidth}`, x, y + height + fontSize);
+    ctx.fillText(`offsetHeight:${offsetHeight}`, x, y + height + fontSize * 2);
 
-    // scroll offset
+    // scrollTop & scrollLeft
     ctx.fillText(
       `scrollTop:${scrollTop}`,
-      pageXOffset + clientRectX - 120 - margin,
-      y + padding + border - fontSize,
+      x + border + clientWidth / 2,
+      y + border - TEXT_Y_GAP - fontSize,
     );
     ctx.fillText(
       `scrollLeft:${scrollLeft}`,
-      pageXOffset + clientRectX - 120 - margin,
-      y + padding + border,
+      x + border + clientWidth / 2,
+      y + border - TEXT_Y_GAP,
     );
 
     // x, y of getBoundingClientRect
-    ctx.strokeStyle = 'rgba(88, 46, 155, 0.7)';
     ctx.beginPath();
     ctx.stroke();
     ctx.fillText(
@@ -175,6 +156,17 @@ export function drawBoxesDimension(canvas, boxOrBoxes) {
       `clientRectY:${clientRectY}`,
       pageXOffset + clientRectX - 140 - margin,
       y - margin + fontSize,
+    );
+    // clientTop & clientLeft
+    ctx.fillText(
+      `clientTop:${clientTop}`,
+      pageXOffset + clientRectX - 140 - margin,
+      y - margin + fontSize * 2,
+    );
+    ctx.fillText(
+      `clientLeft:${clientLeft}`,
+      pageXOffset + clientRectX - 140 - margin,
+      y - margin + fontSize * 3,
     );
   });
 
