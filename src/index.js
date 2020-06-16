@@ -167,12 +167,22 @@ pageY: ${pageY}`;
   };
 
   const renderWindowBox = () => {
-    const { innerWidth, innerHeight, pageXOffset, pageYOffset } = window;
+    const {
+      innerWidth,
+      innerHeight,
+      pageXOffset,
+      pageYOffset,
+      scrollX,
+      scrollY,
+    } = window;
     windowBoxElement.style.transform = `translate(${pageXOffset}px, ${pageYOffset}px)`;
     windowBoxElement.textContent = `innerWidth:${innerWidth}
 innerHeight:${innerHeight}
 pageXOffset:${pageXOffset}
-pageYoffset:${pageYOffset}`;
+pageYoffset:${pageYOffset}
+scrollX:${scrollX}
+scrollY:${scrollY}
+`;
   };
 
   document.body.appendChild(mousePositionElement);
