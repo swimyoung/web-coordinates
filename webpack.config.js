@@ -8,7 +8,7 @@ const output = `${__dirname}/docs`;
 
 module.exports = {
   entry: {
-    index: ['normalize.css', '@babel/polyfill', `${__dirname}/src/index.js`],
+    index: [`${__dirname}/src/index.js`],
   },
   output: {
     path: output,

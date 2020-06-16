@@ -5,18 +5,33 @@ module.exports = {
     node: true,
   },
   parserOptions: {
-    ecmaVersion: 2019,
+    ecmaVersion: 2020,
     sourceType: 'module',
+    ecmaFeatures: {
+      jsx: true,
+    },
   },
-  extends: ['eslint:recommended', 'plugin:prettier/recommended'],
+  extends: [
+    'eslint:recommended',
+    'plugin:react/recommended',
+    'plugin:prettier/recommended',
+  ],
+  rules: {
+    'no-console': 0,
+  },
   overrides: [
     {
       files: ['**/*.spec.js'],
-      env: { jest: true },
+      env: {
+        jest: true,
+      },
     },
     {
       files: ['**/src/**/*.js'],
-      env: { browser: true, node: false },
+      env: {
+        browser: true,
+        node: false,
+      },
     },
   ],
 };

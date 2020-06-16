@@ -1,4 +1,9 @@
 import './index.css';
+import 'normalize.css';
+
+import 'core-js';
+import 'regenerator-runtime/runtime';
+
 import { drawCoordinate, drawBoxesDimension } from './draws';
 import { LARGE_CONTENT } from './constants';
 
