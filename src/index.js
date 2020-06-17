@@ -10,7 +10,7 @@ import { LARGE_CONTENT } from './constants';
 const BOX_COUNT = 1;
 
 (async () => {
-  await new Promise(resolve =>
+  await new Promise((resolve) =>
     window.addEventListener('DOMContentLoaded', resolve),
   );
 
@@ -36,7 +36,7 @@ const BOX_COUNT = 1;
 
   const { width, height } = boundingRect;
   canvases.forEach(
-    canvas =>
+    (canvas) =>
       canvas.setAttribute('width', width) ||
       canvas.setAttribute('height', height),
   );
@@ -65,7 +65,7 @@ function renderBox(boundingRect, callback) {
     callback(element);
   });
 
-  element.addEventListener('mousedown', event => {
+  element.addEventListener('mousedown', (event) => {
     const { x, y, width, height } = element.getBoundingClientRect();
     const [margin] = Object.entries(window.getComputedStyle(element))
       .filter(([key]) => ['margin'].indexOf(key) !== -1)
@@ -75,7 +75,7 @@ function renderBox(boundingRect, callback) {
     const baseX = x + window.pageXOffset - margin - pageXOfMouseDown;
     const baseY = y + window.pageYOffset - margin - pageYOfMouseDown;
 
-    const handleWindowMouseMove = event => {
+    const handleWindowMouseMove = (event) => {
       const { pageX, pageY } = event;
       const boxAreaWidth = width + margin * 2;
       const boxAreaHeight = height + margin * 2;
@@ -151,7 +151,7 @@ function renderWindowDimension() {
     );
   });
 
-  window.addEventListener('mousemove', event => {
+  window.addEventListener('mousemove', (event) => {
     const { clientX, clientY, pageX, pageY } = event;
     Object.assign(position, { clientX, clientY, pageX, pageY });
     renderMousePosition(pageX, pageY);
