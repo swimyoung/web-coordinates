@@ -1,17 +1,19 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
-const production = process.env.NODE_ENV === 'production';
-const hash = production ? 'contenthash' : 'hash';
-const output = `${__dirname}/docs`;
+const { NODE_ENV = 'development' } = process.env;
+const isProductionMode = NODE_ENV === 'production';
+const hash = isProductionMode ? 'contenthash' : 'hash';
 
 module.exports = {
-  entry: {
-    index: [`${__dirname}/src/index.js`],
+  resolve: {
+    extensions: ['.ts', '.tsx', '.js'],
   },
+  entry: `${__dirname}/src/index.tsx`,
   output: {
-    path: output,
+    path: `${__dirname}/docs`,
     filename: `[name].[${hash}].js`,
     chunkFilename: `[name].[${hash}].js`,
     hashDigestLength: 5,
@@ -19,13 +21,13 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.css/,
+        test: /\.css$/,
         use: [MiniCssExtractPlugin.loader, 'css-loader'],
       },
       {
-        test: /\.js[x]?$/,
+        test: /\.ts(x?)$/,
         exclude: /node_modules/,
-        use: 'babel-loader',
+        use: ['babel-loader', 'ts-loader'],
       },
       {
         test: /\.(png|jpg|gif)$/,
@@ -34,19 +36,26 @@ module.exports = {
     ],
   },
   optimization: {
-    splitChunks: {
-      chunks: 'all',
-    },
+    splitChunks: { chunks: 'all' },
   },
   plugins: [
-    ...(production ? [new CleanWebpackPlugin()] : []),
     new MiniCssExtractPlugin({
       filename: `[name].[${hash}].css`,
     }),
     new HTMLWebpackPlugin({
-      template: 'src/index.html',
+      template: `src/index.html`,
+      filename: `index.html`,
     }),
+    ...(isProductionMode
+      ? [
+          new BundleAnalyzerPlugin({
+            analyzerMode: 'static',
+            openAnalyzer: false,
+            reportFilename: '../reports/bundle-analyze.html',
+          }),
+        ]
+      : []),
   ],
-  mode: production ? 'production' : 'development',
-  devtool: production ? 'source-map' : 'inline-source-map',
+  mode: isProductionMode ? 'production' : 'development',
+  devtool: isProductionMode ? 'source-map' : 'inline-source-map',
 };

@@ -4,15 +4,11 @@ module.exports = {
     browser: false,
     node: true,
   },
-  parserOptions: {
-    ecmaVersion: 2020,
-    sourceType: 'module',
-    ecmaFeatures: {
-      jsx: true,
-    },
-  },
+  parser: '@typescript-eslint/parser',
   extends: [
-    'eslint:recommended',
+    'plugin:react/recommended',
+    'plugin:@typescript-eslint/recommended',
+    'prettier/@typescript-eslint',
     'plugin:prettier/recommended',
   ],
   rules: {
@@ -20,17 +16,22 @@ module.exports = {
   },
   overrides: [
     {
-      files: ['**/*.spec.js'],
+      files: ['**/*.spec.ts', '**/*.spec.tsx'],
       env: {
         jest: true,
       },
     },
     {
-      files: ['**/src/**/*.js'],
+      files: ['**/src/**/*.ts', '**/src/**/*.tsx'],
       env: {
         browser: true,
         node: false,
       },
     },
   ],
+  settings: {
+    react: {
+      version: 'detect', // React version. "detect" automatically picks the version you have installed.
+    },
+  },
 };
