@@ -1,9 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Boundary } from './App';
+import { LARGE_CONTENT } from './constants';
 
-const GUIDE_BORDER_SIZE = 2;
-const LARGE_CONTENT =
-  '🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈🙈';
+const GUIDE_BORDER_SIZE = 3;
 
 type BoxProps = {
   boundary: Boundary;
@@ -29,9 +28,11 @@ type BoxDimension = {
 
 export default function Box(props: BoxProps): React.ReactElement {
   const box = useRef<HTMLDivElement>(null);
+  const monkey = useRef<HTMLSpanElement>(null);
+  const [monkeyOffset, setMonkeyOffset] = useState({ top: 0, left: 0 });
   const [boxBoundingClientRect, setBoxBoundingClientRect] = useState<DOMRect>();
   const [boxDimension, setBoxDimension] = useState<BoxDimension>();
-  const [boxPosition, setBoxPosition] = useState({ x: 0, y: 0 });
+  const [boxPosition, setBoxPosition] = useState({ x: 300, y: 300 });
   const {
     boundary,
     pageXOffset,
@@ -42,6 +43,18 @@ export default function Box(props: BoxProps): React.ReactElement {
     padding = 0,
     margin = 0,
   } = props;
+
+  useEffect(() => {
+    const { current: monkeyElement } = monkey;
+    if (!monkeyElement) {
+      return;
+    }
+
+    setMonkeyOffset({
+      top: monkeyElement.offsetTop,
+      left: monkeyElement.offsetLeft,
+    });
+  }, []);
 
   useEffect(() => {
     const { current: element } = box;
@@ -106,8 +119,8 @@ export default function Box(props: BoxProps): React.ReactElement {
 
     const handleWindowMouseMove = (event: MouseEvent) => {
       const { pageX, pageY } = event;
-      const boxAreaWidth = width + margin * 2;
-      const boxAreaHeight = height + margin * 2;
+      const boxAreaWidth = width + border * 2 + padding * 2 + margin * 2;
+      const boxAreaHeight = height + border * 2 + padding * 2 + margin * 2;
 
       let x = baseX + pageX;
       if (x + boxAreaWidth > boundary.width) {
@@ -124,7 +137,7 @@ export default function Box(props: BoxProps): React.ReactElement {
       }
 
       setBoxPosition({ x, y });
-      setBoxBoundingClientRect(boundingClientRect);
+      setBoxBoundingClientRect(element.getBoundingClientRect());
     };
 
     const handleWindowMouseUp = () => {
@@ -134,6 +147,7 @@ export default function Box(props: BoxProps): React.ReactElement {
 
     window.addEventListener('mouseup', handleWindowMouseUp);
     window.addEventListener('mousemove', handleWindowMouseMove);
+    event.preventDefault();
   }
 
   return (
@@ -161,8 +175,10 @@ export default function Box(props: BoxProps): React.ReactElement {
             margin + border + boxPosition.y
           }px)`,
         }}
-      ></div>
-      {/* Boarder Guide */}
+      >
+        padding:<span className="num">{padding}</span>
+      </div>
+      {/* Border Guide */}
       <div
         style={{
           position: 'absolute',
@@ -173,8 +189,10 @@ export default function Box(props: BoxProps): React.ReactElement {
             margin + boxPosition.y
           }px)`,
         }}
-      ></div>
-      {/* Margin ares */}
+      >
+        border:<span className="num">{border}</span>
+      </div>
+      {/* Margin Guide */}
       <div
         style={{
           position: 'absolute',
@@ -188,11 +206,69 @@ export default function Box(props: BoxProps): React.ReactElement {
           transform: `translate(${boxPosition.x}px, ${boxPosition.y}px)`,
         }}
         onMouseDown={handleMouseDown}
-      ></div>
+      >
+        margin:<span className="num">{margin}</span>
+      </div>
+      {/* Box dimension */}
+      <div
+        style={{
+          width: '250px',
+          position: 'absolute',
+          transform: `translate(${boxPosition.x - 250}px, ${boxPosition.y}px)`,
+        }}
+      >
+        width: <span className="num">{width}</span>
+        <br />
+        height: <span className="num">{height}</span>
+        <br />
+        offsetWidth: <span className="num">{boxDimension?.offsetWidth}</span>
+        <br />
+        offsetHeight: <span className="num">{boxDimension?.offsetHeight}</span>
+        <br />
+        clientWidth: <span className="num">{boxDimension?.clientWidth}</span>
+        <br />
+        clientHeight: <span className="num">{boxDimension?.clientHeight}</span>
+        <br />
+        clientTop: <span className="num">{boxDimension?.clientTop}</span>
+        <br />
+        clientLeft: <span className="num">{boxDimension?.clientLeft}</span>
+        <br />
+        scrollTop: <span className="num">{boxDimension?.scrollTop}</span>
+        <br />
+        scrollLeft: <span className="num">{boxDimension?.scrollLeft}</span>
+        <br />
+        ClientRect X: <span className="num">{boxBoundingClientRect?.x}</span>
+        <br />
+        ClientRect Y: <span className="num">{boxBoundingClientRect?.y}</span>
+        <br />
+        ClientRect width:{' '}
+        <span className="num">{boxBoundingClientRect?.width}</span>
+        <br />
+        ClientRect height:{' '}
+        <span className="num">{boxBoundingClientRect?.height}</span>
+        <br />
+        ClientRect top:{' '}
+        <span className="num">{boxBoundingClientRect?.top}</span>
+        <br />
+        ClientRect left:{' '}
+        <span className="num">{boxBoundingClientRect?.left}</span>
+        <br />
+        ClientRect bottom:{' '}
+        <span className="num">{boxBoundingClientRect?.bottom}</span>
+        <br />
+        ClientRect right:{' '}
+        <span className="num">{boxBoundingClientRect?.right}</span>
+        <br />
+        Monkey offsetTop: <span className="num">{monkeyOffset.top}</span>
+        <br />
+        Monkey offsetLeft: <span className="num">{monkeyOffset.left}</span>
+      </div>
+      {/* Box */}
       <div
         ref={box}
         style={{
           position: 'absolute',
+          color: '#aaaaaa',
           width: `${width}px`,
           height: `${height}px`,
           border: `${border}px solid rgba(0, 0, 0, 0)`,
@@ -206,14 +282,15 @@ export default function Box(props: BoxProps): React.ReactElement {
       >
         {LARGE_CONTENT}
         <span
+          ref={monkey}
           style={{
             display: 'inline-block',
-            top: '300px',
-            left: '500px',
+            top: '150px',
+            left: '220px',
             position: 'absolute',
           }}
         >
-          🙈
+          🐵
         </span>
       </div>
     </div>
