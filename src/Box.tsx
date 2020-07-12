@@ -2,20 +2,23 @@ import React, { useEffect, useState, useRef } from 'react';
 import { Boundary } from './App';
 import { LARGE_CONTENT } from './constants';
 
-const GUIDE_BORDER_SIZE = 3;
+export type BoxPosition = {
+  x: number;
+  y: number;
+};
 
 type BoxProps = {
-  boundary: Boundary;
-  pageXOffset: number;
-  pageYOffset: number;
   width: number;
   height: number;
   border: number;
   margin: number;
   padding: number;
+  boundary: Boundary;
+  pageXOffset: number;
+  pageYOffset: number;
 };
 
-type BoxDimension = {
+type BoxElementValues = {
   offsetWidth: number;
   offsetHeight: number;
   clientWidth: number;
@@ -31,8 +34,11 @@ export default function Box(props: BoxProps): React.ReactElement {
   const monkey = useRef<HTMLSpanElement>(null);
   const [monkeyOffset, setMonkeyOffset] = useState({ top: 0, left: 0 });
   const [boxBoundingClientRect, setBoxBoundingClientRect] = useState<DOMRect>();
-  const [boxDimension, setBoxDimension] = useState<BoxDimension>();
-  const [boxPosition, setBoxPosition] = useState({ x: 300, y: 300 });
+  const [boxElementValues, setBoxElementValues] = useState<BoxElementValues>();
+  const [boxPosition, setBoxPosition] = useState<BoxPosition>({
+    x: 600,
+    y: 200,
+  });
   const {
     boundary,
     pageXOffset,
@@ -82,7 +88,7 @@ export default function Box(props: BoxProps): React.ReactElement {
       scrollTop,
       scrollLeft,
     } = element;
-    setBoxDimension({
+    setBoxElementValues({
       offsetWidth,
       offsetHeight,
       clientWidth,
@@ -101,12 +107,14 @@ export default function Box(props: BoxProps): React.ReactElement {
     }
 
     const { scrollTop, scrollLeft } = element;
-    setBoxDimension(
-      (state) => ({ ...state, scrollTop, scrollLeft } as BoxDimension),
+    setBoxElementValues(
+      (state) => ({ ...state, scrollTop, scrollLeft } as BoxElementValues),
     );
   }
 
-  function handleMouseDown(event: React.MouseEvent<HTMLElement>) {
+  function handleMouseDown(
+    event: React.MouseEvent<SVGElement | HTMLDivElement>,
+  ) {
     const { current: element } = box;
     if (!element) {
       return;
@@ -150,119 +158,87 @@ export default function Box(props: BoxProps): React.ReactElement {
     event.preventDefault();
   }
 
+  const marginBoundaryArea = {
+    x: 0,
+    y: 0,
+    width: width + margin * 2 + border * 2 + padding * 2,
+    height: height + margin * 2 + border * 2 + padding * 2,
+  };
+  const borderBoundaryArea = {
+    x: margin,
+    y: margin,
+    width: width + border * 2 + padding * 2,
+    height: height + border * 2 + padding * 2,
+  };
+  const paddingBoundaryArea = {
+    x: margin + border,
+    y: margin + border,
+    width: width + padding * 2,
+    height: height + padding * 2,
+  };
+  const contentBoundaryArea = {
+    x: margin + border + padding,
+    y: margin + border + padding,
+    width,
+    height,
+  };
   return (
     <div style={{ position: 'relative' }}>
-      {/* Content Guide */}
-      <div
+      <svg
         style={{
           position: 'absolute',
-          width: `${width - GUIDE_BORDER_SIZE}px`,
-          height: `${height - GUIDE_BORDER_SIZE}px`,
-          border: `${GUIDE_BORDER_SIZE}px solid gray`,
-          transform: `translate(${
-            margin + padding + border + boxPosition.x
-          }px, ${margin + padding + border + boxPosition.y}px)`,
-        }}
-      ></div>
-      {/* Padding Guide */}
-      <div
-        style={{
-          position: 'absolute',
-          width: `${width - GUIDE_BORDER_SIZE + padding * 2}px`,
-          height: `${height - GUIDE_BORDER_SIZE + padding * 2}px`,
-          border: `${GUIDE_BORDER_SIZE}px dashed gray`,
-          transform: `translate(${margin + border + boxPosition.x}px, ${
-            margin + border + boxPosition.y
-          }px)`,
-        }}
-      >
-        padding:<span className="num">{padding}</span>
-      </div>
-      {/* Border Guide */}
-      <div
-        style={{
-          position: 'absolute',
-          width: `${width - GUIDE_BORDER_SIZE + border * 2 + padding * 2}px`,
-          height: `${height - GUIDE_BORDER_SIZE + border * 2 + padding * 2}px`,
-          border: `${GUIDE_BORDER_SIZE}px solid black`,
-          transform: `translate(${margin + boxPosition.x}px, ${
-            margin + boxPosition.y
-          }px)`,
-        }}
-      >
-        border:<span className="num">{border}</span>
-      </div>
-      {/* Margin Guide */}
-      <div
-        style={{
-          position: 'absolute',
-          width: `${
-            width - GUIDE_BORDER_SIZE + margin * 2 + border * 2 + padding * 2
-          }px`,
-          height: `${
-            height - GUIDE_BORDER_SIZE + margin * 2 + border * 2 + padding * 2
-          }px`,
-          border: `${GUIDE_BORDER_SIZE}px dashed black`,
           transform: `translate(${boxPosition.x}px, ${boxPosition.y}px)`,
         }}
+        width={marginBoundaryArea.width}
+        height={marginBoundaryArea.height}
         onMouseDown={handleMouseDown}
       >
-        margin:<span className="num">{margin}</span>
-      </div>
-      {/* Box dimension */}
-      <div
-        style={{
-          width: '250px',
-          position: 'absolute',
-          transform: `translate(${boxPosition.x - 250}px, ${boxPosition.y}px)`,
-        }}
-      >
-        width: <span className="num">{width}</span>
-        <br />
-        height: <span className="num">{height}</span>
-        <br />
-        offsetWidth: <span className="num">{boxDimension?.offsetWidth}</span>
-        <br />
-        offsetHeight: <span className="num">{boxDimension?.offsetHeight}</span>
-        <br />
-        clientWidth: <span className="num">{boxDimension?.clientWidth}</span>
-        <br />
-        clientHeight: <span className="num">{boxDimension?.clientHeight}</span>
-        <br />
-        clientTop: <span className="num">{boxDimension?.clientTop}</span>
-        <br />
-        clientLeft: <span className="num">{boxDimension?.clientLeft}</span>
-        <br />
-        scrollTop: <span className="num">{boxDimension?.scrollTop}</span>
-        <br />
-        scrollLeft: <span className="num">{boxDimension?.scrollLeft}</span>
-        <br />
-        ClientRect X: <span className="num">{boxBoundingClientRect?.x}</span>
-        <br />
-        ClientRect Y: <span className="num">{boxBoundingClientRect?.y}</span>
-        <br />
-        ClientRect width:{' '}
-        <span className="num">{boxBoundingClientRect?.width}</span>
-        <br />
-        ClientRect height:{' '}
-        <span className="num">{boxBoundingClientRect?.height}</span>
-        <br />
-        ClientRect top:{' '}
-        <span className="num">{boxBoundingClientRect?.top}</span>
-        <br />
-        ClientRect left:{' '}
-        <span className="num">{boxBoundingClientRect?.left}</span>
-        <br />
-        ClientRect bottom:{' '}
-        <span className="num">{boxBoundingClientRect?.bottom}</span>
-        <br />
-        ClientRect right:{' '}
-        <span className="num">{boxBoundingClientRect?.right}</span>
-        <br />
-        Monkey offsetTop: <span className="num">{monkeyOffset.top}</span>
-        <br />
-        Monkey offsetLeft: <span className="num">{monkeyOffset.left}</span>
-      </div>
+        <rect
+          x={marginBoundaryArea.x + 1}
+          y={marginBoundaryArea.y + 1}
+          width={marginBoundaryArea.width - 2}
+          height={marginBoundaryArea.height - 2}
+          style={{
+            fill: 'transparent',
+            stroke: '#000000',
+            strokeWidth: '2',
+            strokeDasharray: '10 10',
+          }}
+        />
+        <text x={10} y="20">
+          margin: {margin}
+        </text>
+        <rect
+          {...borderBoundaryArea}
+          style={{
+            fill: 'transparent',
+            stroke: '#000000',
+            strokeWidth: '2',
+          }}
+        />
+        <text x={borderBoundaryArea.x + 10} y={borderBoundaryArea.y + 20}>
+          border: {border}
+        </text>
+        <rect
+          {...paddingBoundaryArea}
+          style={{
+            fill: 'transparent',
+            stroke: '#000000',
+            strokeWidth: '2',
+          }}
+        />
+        <text x={paddingBoundaryArea.x + 10} y={paddingBoundaryArea.y + 20}>
+          padding: {padding}
+        </text>
+        <rect
+          {...contentBoundaryArea}
+          style={{
+            fill: 'transparent',
+            stroke: '#000000',
+            strokeWidth: '2',
+          }}
+        />
+      </svg>
       {/* Box */}
       <div
         ref={box}
@@ -292,6 +268,87 @@ export default function Box(props: BoxProps): React.ReactElement {
         >
           🐵
         </span>
+      </div>
+      {/* Box element values */}
+      <div
+        style={{
+          width: '250px',
+          position: 'absolute',
+          transform: `translate(${boxPosition.x - 250}px, ${boxPosition.y}px)`,
+        }}
+      >
+        <div>
+          width: <span className="num">{width}</span>
+        </div>
+        <div>
+          height: <span className="num">{height}</span>
+        </div>
+        <div>
+          offsetWidth:{' '}
+          <span className="num">{boxElementValues?.offsetWidth}</span>
+        </div>
+        <div>
+          offsetHeight:{' '}
+          <span className="num">{boxElementValues?.offsetHeight}</span>
+        </div>
+        <div>
+          clientWidth:{' '}
+          <span className="num">{boxElementValues?.clientWidth}</span>
+        </div>
+        <div>
+          clientHeight:
+          <span className="num">{boxElementValues?.clientHeight}</span>
+        </div>
+        <div>
+          clientTop: <span className="num">{boxElementValues?.clientTop}</span>
+        </div>
+        <div>
+          clientLeft:{' '}
+          <span className="num">{boxElementValues?.clientLeft}</span>
+        </div>
+        <div>
+          scrollTop: <span className="num">{boxElementValues?.scrollTop}</span>
+        </div>
+        <div>
+          scrollLeft:{' '}
+          <span className="num">{boxElementValues?.scrollLeft}</span>
+        </div>
+        <div>
+          ClientRect X: <span className="num">{boxBoundingClientRect?.x}</span>
+        </div>
+        <div>
+          ClientRect Y: <span className="num">{boxBoundingClientRect?.y}</span>
+        </div>
+        <div>
+          ClientRect width:{' '}
+          <span className="num">{boxBoundingClientRect?.width}</span>
+        </div>
+        <div>
+          ClientRect height:{' '}
+          <span className="num">{boxBoundingClientRect?.height}</span>
+        </div>
+        <div>
+          ClientRect top:{' '}
+          <span className="num">{boxBoundingClientRect?.top}</span>
+        </div>
+        <div>
+          ClientRect left:{' '}
+          <span className="num">{boxBoundingClientRect?.left}</span>
+        </div>
+        <div>
+          ClientRect bottom:{' '}
+          <span className="num">{boxBoundingClientRect?.bottom}</span>
+        </div>
+        <div>
+          ClientRect right:{' '}
+          <span className="num">{boxBoundingClientRect?.right}</span>
+        </div>
+        <div>
+          Monkey offsetTop: <span className="num">{monkeyOffset.top}</span>
+        </div>
+        <div>
+          Monkey offsetLeft: <span className="num">{monkeyOffset.left}</span>
+        </div>
       </div>
     </div>
   );
