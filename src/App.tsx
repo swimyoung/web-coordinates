@@ -81,12 +81,11 @@ export function App(): React.ReactElement {
       }}
     >
       <Coordinate {...boundary} />
-      {/* Window dimension guide */}
+      {/* Window values guide */}
       <div
         style={{
           margin: '50px',
-          position: 'absolute',
-          transform: `translate(${pageXOffset}px, ${pageYOffset}px)`,
+          position: 'fixed',
         }}
       >
         innerWidth: <span className="num">{innerWidth}</span>
