@@ -21,6 +21,8 @@ type BoxProps = {
 type BoxElementValues = {
   offsetWidth: number;
   offsetHeight: number;
+  offsetTop: number;
+  offsetLeft: number;
   clientWidth: number;
   clientHeight: number;
   clientTop: number;
@@ -81,6 +83,8 @@ export default function Box(props: BoxProps): React.ReactElement {
     const {
       offsetWidth,
       offsetHeight,
+      offsetTop,
+      offsetLeft,
       clientWidth,
       clientHeight,
       clientTop,
@@ -91,6 +95,8 @@ export default function Box(props: BoxProps): React.ReactElement {
     setBoxElementValues({
       offsetWidth,
       offsetHeight,
+      offsetTop,
+      offsetLeft,
       clientWidth,
       clientHeight,
       clientTop,
@@ -205,7 +211,7 @@ export default function Box(props: BoxProps): React.ReactElement {
             strokeDasharray: '10 10',
           }}
         />
-        <text x={10} y="20">
+        <text dominantBaseline="hanging" x={10} y="10">
           margin: {margin}
         </text>
         <rect
@@ -216,7 +222,11 @@ export default function Box(props: BoxProps): React.ReactElement {
             strokeWidth: '2',
           }}
         />
-        <text x={borderBoundaryArea.x + 10} y={borderBoundaryArea.y + 20}>
+        <text
+          dominantBaseline="hanging"
+          x={borderBoundaryArea.x + 10}
+          y={borderBoundaryArea.y + 10}
+        >
           border: {border}
         </text>
         <rect
@@ -227,7 +237,11 @@ export default function Box(props: BoxProps): React.ReactElement {
             strokeWidth: '2',
           }}
         />
-        <text x={paddingBoundaryArea.x + 10} y={paddingBoundaryArea.y + 20}>
+        <text
+          dominantBaseline="hanging"
+          x={paddingBoundaryArea.x + 10}
+          y={paddingBoundaryArea.y + 10}
+        >
           padding: {padding}
         </text>
         <rect
@@ -282,6 +296,13 @@ export default function Box(props: BoxProps): React.ReactElement {
         </div>
         <div>
           height: <span className="num">{height}</span>
+        </div>
+        <div>
+          offsetTop: <span className="num">{boxElementValues?.offsetTop}</span>
+        </div>
+        <div>
+          offsetLeft:{' '}
+          <span className="num">{boxElementValues?.offsetLeft}</span>
         </div>
         <div>
           offsetWidth:{' '}
