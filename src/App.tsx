@@ -7,10 +7,28 @@ export type Boundary = {
   height: number;
 };
 
-export function App(): React.ReactElement {
-  const [state, setState] = useState({
+function getWindowSize() {
+  return {
+    documentElementClientWidth: document.documentElement.clientWidth,
+    documentElementOffsetWidth: document.documentElement.offsetWidth,
+    documentElementScrollWidth: document.documentElement.scrollWidth,
+    documentElementClientHeight: document.documentElement.clientHeight,
+    documentElementOffsetHeight: document.documentElement.offsetHeight,
+    documentElementScrollHeight: document.documentElement.scrollHeight,
+    bodyClientWidth: document.body.clientWidth,
+    bodyOffsetWidth: document.body.offsetWidth,
+    bodyScrollWidth: document.body.scrollWidth,
+    bodyClientHeight: document.body.clientHeight,
+    bodyOffsetHeight: document.body.offsetHeight,
+    bodyScrollHeight: document.body.scrollHeight,
     innerWidth: window.innerWidth,
     innerHeight: window.innerHeight,
+  };
+}
+
+export function App(): React.ReactElement {
+  const [state, setState] = useState({
+    ...getWindowSize(),
     pageXOffset: window.pageXOffset,
     pageYOffset: window.pageYOffset,
     scrollX: window.scrollX,
@@ -25,6 +43,18 @@ export function App(): React.ReactElement {
     },
   });
   const {
+    documentElementClientWidth,
+    documentElementOffsetWidth,
+    documentElementScrollWidth,
+    documentElementClientHeight,
+    documentElementOffsetHeight,
+    documentElementScrollHeight,
+    bodyClientWidth,
+    bodyOffsetWidth,
+    bodyScrollWidth,
+    bodyClientHeight,
+    bodyOffsetHeight,
+    bodyScrollHeight,
     innerWidth,
     innerHeight,
     pageXOffset,
@@ -37,6 +67,10 @@ export function App(): React.ReactElement {
     pageY,
     boundary,
   } = state;
+
+  useEffect(() => {
+    setState((state) => ({ ...state, ...getWindowSize() }));
+  }, []);
 
   useEffect(() => {
     const handleWindowMouseMove = (event: MouseEvent) => {
@@ -58,8 +92,7 @@ export function App(): React.ReactElement {
     };
 
     const handleWindowResize = () => {
-      const { innerWidth, innerHeight } = window;
-      setState((state) => ({ ...state, innerWidth, innerHeight }));
+      setState((state) => ({ ...state, ...getWindowSize() }));
     };
 
     window.addEventListener('mousemove', handleWindowMouseMove);
@@ -88,6 +121,36 @@ export function App(): React.ReactElement {
           position: 'fixed',
         }}
       >
+        documentElementClientWidth:{' '}
+        <span className="num">{documentElementClientWidth}</span>
+        <br />
+        documentElementOffsetWidth:{' '}
+        <span className="num">{documentElementOffsetWidth}</span>
+        <br />
+        documentElementScrollWidth:{' '}
+        <span className="num">{documentElementScrollWidth}</span>
+        <br />
+        documentElementClientHeight:{' '}
+        <span className="num">{documentElementClientHeight}</span>
+        <br />
+        documentElementOffsetHeight:{' '}
+        <span className="num">{documentElementOffsetHeight}</span>
+        <br />
+        documentElementScrollHeight:{' '}
+        <span className="num">{documentElementScrollHeight}</span>
+        <br />
+        bodyClientWidth: <span className="num">{bodyClientWidth}</span>
+        <br />
+        bodyOffsetWidth: <span className="num">{bodyOffsetWidth}</span>
+        <br />
+        bodyScrollWidth: <span className="num">{bodyScrollWidth}</span>
+        <br />
+        bodyClientHeight: <span className="num">{bodyClientHeight}</span>
+        <br />
+        bodyOffsetHeight: <span className="num">{bodyOffsetHeight}</span>
+        <br />
+        bodyScrollHeight: <span className="num">{bodyScrollHeight}</span>
+        <br />
         innerWidth: <span className="num">{innerWidth}</span>
         <br />
         innerHeight: <span className="num">{innerHeight}</span>
