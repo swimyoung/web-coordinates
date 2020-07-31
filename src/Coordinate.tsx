@@ -35,7 +35,7 @@ function CoordinateUnitText(props: {
               return (
                 <span
                   style={{
-                    color: '#cccccc',
+                    color: '#999999',
                     position: 'absolute',
                     display: 'inline-block',
                     transform: `translate(${index * 100}px, 0px)`,
@@ -61,7 +61,7 @@ function CoordinateUnitText(props: {
               return (
                 <span
                   style={{
-                    color: '#cccccc',
+                    color: '#999999',
                     position: 'absolute',
                     display: 'inline-block',
                     transform: `translate(0px, ${index * 100}px)`,
