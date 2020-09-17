@@ -257,6 +257,7 @@ export default function Box(props: BoxProps): React.ReactElement {
       <div
         ref={box}
         style={{
+          cursor: 'move',
           position: 'absolute',
           color: '#aaaaaa',
           width: `${width}px`,
