@@ -1,1 +1,0 @@
-{"version":3,"sources":["webpack:///./src/index.css"],"names":[],"mappings":"AAAA;AACA;AACA;;AAEA;AACA;AACA,qBAAqB;AACrB,C","file":"main.22b40.css","sourcesContent":["body {\n  font-family: 'Courier New', Courier, monospace;\n}\n\n.num {\n  font-weight: bold;\n  /* cursor: pointer; */\n}"],"sourceRoot":""}

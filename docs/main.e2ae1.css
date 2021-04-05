@@ -348,5 +348,13 @@ template {
   display: none;
 }
 
+body {
+  font-family: 'Courier New', Courier, monospace;
+}
 
-/*# sourceMappingURL=vendors~main.cdd1f.css.map*/
+.num {
+  font-weight: bold;
+  /* cursor: pointer; */
+}
+
+/*# sourceMappingURL=main.e2ae1.css.map*/
