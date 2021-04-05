@@ -1,3 +1,3 @@
-# [web-coordinates-visualization](https://swimyoung.github.io/web-coordinates-visualization/)
+# [web-coordinates](https://swimyoung.github.io/web-coordinates/)
 
 > Suffer from a various browser coordinate API?

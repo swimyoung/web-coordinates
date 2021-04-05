@@ -5,7 +5,7 @@ module.exports = {
       {
         debug: true,
         corejs: 3,
-        useBuiltIns: 'entry',
+        useBuiltIns: 'usage',
         targets: {
           // defaults: > 0.5%, last 2 versions, Firefox ESR, not dead
           browsers: ['defaults', 'not IE 10'],

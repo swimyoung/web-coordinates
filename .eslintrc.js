@@ -6,9 +6,10 @@ module.exports = {
   },
   parser: '@typescript-eslint/parser',
   extends: [
+    'eslint:recommended',
+    'plugin:jest/recommended',
     'plugin:react/recommended',
     'plugin:@typescript-eslint/recommended',
-    'prettier/@typescript-eslint',
     'plugin:prettier/recommended',
   ],
   rules: {
