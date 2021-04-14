@@ -1,3 +1,4 @@
+// Webpack configuration file doesn't understand es6 module syntax
 /* eslint-disable @typescript-eslint/no-var-requires */
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HTMLWebpackPlugin = require('html-webpack-plugin');

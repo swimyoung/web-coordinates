@@ -3,7 +3,7 @@ module.exports = {
     [
       '@babel/preset-env',
       {
-        debug: true,
+        debug: process.env.NODE_ENV === 'production',
         corejs: 3,
         useBuiltIns: 'usage',
         targets: {
@@ -13,5 +13,4 @@ module.exports = {
       },
     ],
   ],
-  plugins: ['lodash'],
 };
