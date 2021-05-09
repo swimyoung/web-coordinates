@@ -106,7 +106,6 @@ export function Console() {
         <div>pageYOffset: {pageYOffset}</div>
         <div>scrollX: {scrollX}</div>
         <div>scrollY: {scrollY}</div>
-        <div>scrollY: {scrollY}</div>
         {touchPositions.length > 0 ? (
           touchPositions.map((touchPosition, index) => {
             return (
