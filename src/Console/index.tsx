@@ -86,6 +86,9 @@ export function Console() {
       case ConsolTabItem.Window: {
         return renderWindowTabContent();
       }
+      case ConsolTabItem.Document: {
+        return renderDocumentTabContent();
+      }
       case ConsolTabItem.Box: {
         return renderBoxTabContent();
       }
@@ -135,6 +138,10 @@ export function Console() {
     );
   };
 
+  const renderDocumentTabContent = () => {
+    return <>WIP:</>;
+  };
+
   const renderBoxTabContent = () => {
     return <>WIP:</>;
   };
@@ -146,7 +153,11 @@ export function Console() {
         onMouseDown={handleMouseDownResizeCursor}
       />
       <ConsoleTabs
-        items={[ConsolTabItem.Window, ConsolTabItem.Box]}
+        items={[
+          ConsolTabItem.Window,
+          ConsolTabItem.Document,
+          ConsolTabItem.Box,
+        ]}
         selectedItem={selectedTab}
         onSelect={(item) => setSelectedTab(item as ConsolTabItem)}
       />
