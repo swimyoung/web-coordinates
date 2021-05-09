@@ -1,5 +1,5 @@
-import React, { useState, useRef } from 'react';
-import { Boundary } from './App';
+import React, { useState, useRef, useContext } from 'react';
+import { AppBoundaryContext } from './App';
 
 type BoxPosition = {
   x: number;
@@ -7,7 +7,7 @@ type BoxPosition = {
 };
 
 type BoxProps = {
-  boundary: Boundary;
+  //
 };
 
 function Box(props: BoxProps): React.ReactElement {
@@ -16,7 +16,8 @@ function Box(props: BoxProps): React.ReactElement {
     x: 100,
     y: 100,
   });
-  const { boundary } = props;
+  const boundary = useContext(AppBoundaryContext);
+
   const width = 150;
   const height = 150;
   const padding = 30;

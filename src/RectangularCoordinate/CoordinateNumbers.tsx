@@ -1,30 +1,15 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useMemo, useContext } from 'react';
+import { AppBoundaryContext } from '../App';
+import { useWindowPosition } from '../useWindowPosition';
 
 type CoordinateProps = {
-  width: number;
-  height: number;
   unit?: number;
 };
 
 function CoordinateNumbers(props: CoordinateProps): React.ReactElement {
-  const { width, height, unit = 100 } = props;
-
-  const [pageOffset, setPageOffset] = useState({
-    x: window.pageXOffset,
-    y: window.pageYOffset,
-  });
-
-  useEffect(() => {
-    const handleWindowScroll = () => {
-      const { pageXOffset, pageYOffset } = window;
-      setPageOffset({ x: pageXOffset, y: pageYOffset });
-    };
-
-    window.addEventListener('scroll', handleWindowScroll);
-    return () => {
-      window.removeEventListener('scroll', handleWindowScroll);
-    };
-  }, []);
+  const { unit = 100 } = props;
+  const { width, height } = useContext(AppBoundaryContext);
+  const { pageXOffset, pageYOffset } = useWindowPosition();
 
   return (
     <>
@@ -43,7 +28,7 @@ function CoordinateNumbers(props: CoordinateProps): React.ReactElement {
                   style={{
                     position: 'absolute',
                     transform: `translate(${
-                      index * unit - (pageOffset.x < 0 ? 0 : pageOffset.x)
+                      index * unit - (pageXOffset < 0 ? 0 : pageXOffset)
                     }px, 0px)`,
                     color: '#999999',
                   }}
@@ -52,7 +37,7 @@ function CoordinateNumbers(props: CoordinateProps): React.ReactElement {
                 </div>
               );
             }),
-          [pageOffset.x],
+          [width, pageXOffset],
         )}
       </div>
       {/* y coordinate line numbers */}
@@ -70,7 +55,7 @@ function CoordinateNumbers(props: CoordinateProps): React.ReactElement {
                   style={{
                     position: 'absolute',
                     transform: `translate(0px, ${
-                      index * unit - (pageOffset.y < 0 ? 0 : pageOffset.y)
+                      index * unit - (pageYOffset < 0 ? 0 : pageYOffset)
                     }px)`,
                     color: '#999999',
                   }}
@@ -79,7 +64,7 @@ function CoordinateNumbers(props: CoordinateProps): React.ReactElement {
                 </div>
               );
             }),
-          [pageOffset.y],
+          [height, pageYOffset],
         )}
       </div>
     </>

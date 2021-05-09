@@ -1,27 +1,35 @@
-import React, { useState } from 'react';
+import React, { useMemo } from 'react';
 import { RectangularCoordinate } from './RectangularCoordinate';
 import { Box } from './Box';
-
-function calculateBoundary(): Boundary {
-  return {
-    width: Math.floor(window.innerWidth * 1.5),
-    height: Math.floor(window.innerHeight * 1.5),
-  };
-}
+import { Console } from './Console';
+import { useWindowSize } from './useWindowSize';
 
 type Boundary = {
   width: number;
   height: number;
 };
 
+export const AppBoundaryContext = React.createContext<Boundary>({
+  width: 0,
+  height: 0,
+});
+
 function App(): React.ReactElement {
-  const [boundary] = useState(() => calculateBoundary());
+  const windowSize = useWindowSize();
+  const boundary = useMemo(
+    () => ({
+      width: windowSize.innerWidth * 1.5,
+      height: windowSize.innerHeight * 1.5,
+    }),
+    [windowSize.innerWidth, windowSize.innerHeight],
+  );
 
   return (
-    <>
-      <RectangularCoordinate {...boundary} />
-      <Box boundary={boundary} />
-    </>
+    <AppBoundaryContext.Provider value={boundary}>
+      <RectangularCoordinate />
+      <Box />
+      <Console />
+    </AppBoundaryContext.Provider>
   );
 }
 

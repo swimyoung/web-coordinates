@@ -3,20 +3,18 @@ import { CoordinateLines } from './CoordinateLines';
 import { CoordinateNumbers } from './CoordinateNumbers';
 
 type RectangularCoordinateProps = {
-  width: number;
-  height: number;
+  //
 };
 
-function RectangularCoordinate(
+const RectangularCoordinate = React.memo(function RectangularCoordinate(
   props: RectangularCoordinateProps,
 ): React.ReactElement {
-  const { width, height } = props;
   return (
     <>
-      <CoordinateLines width={width} height={height} />
-      <CoordinateNumbers width={width} height={height} />
+      <CoordinateLines />
+      <CoordinateNumbers />
     </>
   );
-}
+});
 
 export { RectangularCoordinate };

@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { AppBoundaryContext } from '../App';
 
 type CoordinateLinesProps = {
-  width: number;
-  height: number;
+  //
 };
 
 function CoordinateLines(props: CoordinateLinesProps): React.ReactElement {
-  const { width, height } = props;
+  const { width, height } = useContext(AppBoundaryContext);
+
   return (
     <svg style={{ position: 'absolute' }} width={width} height={height}>
       {[
