@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
 import { RectangularCoordinate } from './RectangularCoordinate';
 import { Box } from './Box';
 
@@ -15,19 +14,14 @@ type Boundary = {
   height: number;
 };
 
-const Container = styled.div<Boundary>`
-  width: ${(props) => props.width}px;
-  height: ${(props) => props.height}px;
-`;
-
 function App(): React.ReactElement {
   const [boundary] = useState(() => calculateBoundary());
 
   return (
-    <Container {...boundary}>
+    <>
       <RectangularCoordinate {...boundary} />
       <Box boundary={boundary} />
-    </Container>
+    </>
   );
 }
 
