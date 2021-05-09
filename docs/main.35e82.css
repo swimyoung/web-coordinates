@@ -348,9 +348,13 @@ template {
   display: none;
 }
 
+/* Global CSS */
 body {
   font-family: 'Courier New', Courier, monospace;
 }
 
+* {
+  box-sizing: border-box;
+}
 
-/*# sourceMappingURL=main.73d00.css.map*/
+/*# sourceMappingURL=main.35e82.css.map*/
