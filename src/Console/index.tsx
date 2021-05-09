@@ -14,11 +14,11 @@ const StyledDiv = styled.div`
   background-color: #fff;
   opacity: 0.8;
   position: fixed;
-  border: 1px solid;
   bottom: 0;
   left: 0;
   display: flex;
   flex-flow: column;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 
   .console-resize-bar {
     width: 100%;
