@@ -27,7 +27,7 @@ function CoordinateNumbers(props: CoordinateProps): React.ReactElement {
   }, []);
 
   return (
-    <React.Fragment>
+    <>
       {/* x coordinate line numbers */}
       <div
         style={{
@@ -82,7 +82,7 @@ function CoordinateNumbers(props: CoordinateProps): React.ReactElement {
           [pageOffset.y],
         )}
       </div>
-    </React.Fragment>
+    </>
   );
 }
 
