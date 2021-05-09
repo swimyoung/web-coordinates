@@ -1,9 +1,5 @@
 import React, { useState, useRef } from 'react';
 import { Boundary } from './App';
-import Chance from 'chance';
-
-const chance = new Chance();
-const TEXT_CONTENT = chance.paragraph({ sentences: 7 });
 
 type BoxPosition = {
   x: number;
@@ -177,7 +173,7 @@ function Box(props: BoxProps): React.ReactElement {
         }}
         onMouseDown={handleMouseDown}
       >
-        {TEXT_CONTENT}
+        {/* TODO: */}
       </div>
     </div>
   );
