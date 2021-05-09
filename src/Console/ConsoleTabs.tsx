@@ -21,16 +21,15 @@ const StyledUl = styled.ul`
 `;
 
 type ConsoleTabsProps = {
-  height: number;
   items: string[];
   selectedItem: string;
   onSelect: (selected: string) => void;
 };
 export function ConsoleTabs(props: ConsoleTabsProps) {
-  const { height, items, selectedItem, onSelect } = props;
+  const { items, selectedItem, onSelect } = props;
 
   return (
-    <StyledUl style={{ height: `${height}px` }}>
+    <StyledUl>
       {useMemo(
         () =>
           items.map((item, index) => (

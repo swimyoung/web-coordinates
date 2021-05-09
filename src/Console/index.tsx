@@ -4,9 +4,6 @@ import { ConsoleTabs } from './ConsoleTabs';
 import { useWindowSize } from '../useWindowSize';
 import { useWindowPosition } from '../useWindowPosition';
 
-const TAB_HEIGHT = 30;
-const TAB_RESIZE_BAR_HEIGHT = 5;
-
 enum ConsolTabItem {
   Window = 'Window',
   Document = 'Document',
@@ -20,10 +17,12 @@ const StyledDiv = styled.div`
   border: 1px solid;
   bottom: 0;
   left: 0;
+  display: flex;
+  flex-flow: column;
 
   .console-resize-bar {
     width: 100%;
-    height: ${() => TAB_RESIZE_BAR_HEIGHT}px;
+    height: 5px;
     background: 0 0;
     cursor: ns-resize;
   }
@@ -31,6 +30,7 @@ const StyledDiv = styled.div`
   .console-content-container {
     padding: 10px;
     overflow: auto;
+    flex: 1;
   }
 `;
 
@@ -146,17 +146,11 @@ export function Console() {
         onMouseDown={handleMouseDownResizeCursor}
       />
       <ConsoleTabs
-        height={TAB_HEIGHT}
         items={[ConsolTabItem.Window, ConsolTabItem.Box]}
         selectedItem={selectedTab}
         onSelect={(item) => setSelectedTab(item as ConsolTabItem)}
       />
-      <div
-        style={{ height: height - TAB_HEIGHT - TAB_RESIZE_BAR_HEIGHT }}
-        className="console-content-container"
-      >
-        {renderContent()}
-      </div>
+      <div className="console-content-container">{renderContent()}</div>
     </StyledDiv>
   );
 }
