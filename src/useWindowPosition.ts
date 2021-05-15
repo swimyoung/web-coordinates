@@ -5,7 +5,7 @@ interface WindowPosition {
   pageYOffset: number;
   scrollX: number;
   scrollY: number;
-  mousePosition: WindowMousePosition;
+  mousePosition: WindowMousePosition | null;
   touchPositions: WindowTouchPosition[];
 }
 interface WindowMousePosition {
@@ -27,12 +27,7 @@ export function useWindowPosition(): WindowPosition {
     pageYOffset: Math.floor(window.pageYOffset),
     scrollX: Math.floor(window.scrollX),
     scrollY: Math.floor(window.scrollY),
-    mousePosition: {
-      clientX: 0,
-      clientY: 0,
-      pageX: 0,
-      pageY: 0,
-    },
+    mousePosition: null,
     touchPositions: [],
   });
 

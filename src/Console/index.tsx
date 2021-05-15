@@ -142,14 +142,14 @@ export function Console(): React.ReactElement {
               </React.Fragment>
             );
           })
-        ) : (
+        ) : mousePosition ? (
           <>
             <div>mouse.pageX: {mousePosition.pageX}</div>
             <div>mouse.pageY: {mousePosition.pageY}</div>
             <div>mouse.clientX: {mousePosition.clientX}</div>
             <div>mouse.clientY: {mousePosition.clientY}</div>
           </>
-        )}
+        ) : null}
       </>
     );
   };
