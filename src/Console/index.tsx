@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { ConsoleTabs } from './ConsoleTabs';
 import { useWindowSize } from '../useWindowSize';
 import { useWindowPosition } from '../useWindowPosition';
+import ArrowDownUpIcon from '../icons/ArrowDownUpIcon';
 
 enum ConsolTabItem {
   Window = 'Window',
@@ -34,7 +35,7 @@ const StyledDiv = styled.div`
   }
 `;
 
-export function Console() {
+export function Console(): React.ReactElement {
   const {
     innerWidth,
     innerHeight,
@@ -51,32 +52,48 @@ export function Console() {
   } = useWindowPosition();
   const [selectedTab, setSelectedTab] = useState(ConsolTabItem.Window);
   const [height, setHeight] = useState(innerHeight * 0.3);
-  const minHeight = innerHeight * 0.1;
-  const maxHeight = innerHeight * 0.9;
 
-  const handleMouseDownResizeCursor = (event: React.MouseEvent) => {
+  const resizeConsoleHeight = (nextHeight: number) => {
+    const minHeight = innerHeight * 0.1;
+    const maxHeight = innerHeight * 0.9;
+
+    setHeight(
+      nextHeight < minHeight
+        ? minHeight
+        : nextHeight > maxHeight
+        ? maxHeight
+        : nextHeight,
+    );
+  };
+  const handleTouchStartResize = (event: React.TouchEvent) => {
+    const anchoredPageY = event.touches[0].pageY;
+    const anchoredHeight = height;
+
+    const handleWindowTouchMove = (event: TouchEvent) => {
+      resizeConsoleHeight(
+        anchoredHeight + anchoredPageY - event.touches[0].pageY,
+      );
+    };
+    const handleWindowTouchEnd = () => {
+      window.removeEventListener('touchend', handleWindowTouchEnd);
+      window.removeEventListener('touchmove', handleWindowTouchMove);
+    };
+    window.addEventListener('touchend', handleWindowTouchEnd);
+    window.addEventListener('touchmove', handleWindowTouchMove);
+  };
+  const handleMouseDownResize = (event: React.MouseEvent) => {
     event.preventDefault();
     const anchoredPageY = event.pageY;
     const anchoredHeight = height;
-    const resizeConsoleHeight = (event: MouseEvent) => {
-      const nextHeight = anchoredHeight + anchoredPageY - event.pageY;
-      setHeight(
-        nextHeight < minHeight
-          ? minHeight
-          : nextHeight > maxHeight
-          ? maxHeight
-          : nextHeight,
-      );
-    };
+
     const handleWindowMouseMove = (event: MouseEvent) => {
-      resizeConsoleHeight(event);
+      resizeConsoleHeight(anchoredHeight + anchoredPageY - event.pageY);
     };
     const handleWindowMouseUp = (event: MouseEvent) => {
-      resizeConsoleHeight(event);
+      resizeConsoleHeight(anchoredHeight + anchoredPageY - event.pageY);
       window.removeEventListener('mouseup', handleWindowMouseUp);
       window.removeEventListener('mousemove', handleWindowMouseMove);
     };
-
     window.addEventListener('mouseup', handleWindowMouseUp);
     window.addEventListener('mousemove', handleWindowMouseMove);
   };
@@ -147,9 +164,17 @@ export function Console() {
 
   return (
     <StyledDiv style={{ height: `${height}px`, width: '100%' }}>
-      <div
-        className="console-resize-bar"
-        onMouseDown={handleMouseDownResizeCursor}
+      <div className="console-resize-bar" onMouseDown={handleMouseDownResize} />
+      <ArrowDownUpIcon
+        onMouseDown={handleMouseDownResize}
+        onTouchStart={handleTouchStartResize}
+        style={{
+          position: 'absolute',
+          right: 0,
+          margin: '10px',
+          cursor: 'pointer',
+          touchAction: 'none',
+        }}
       />
       <ConsoleTabs
         items={[

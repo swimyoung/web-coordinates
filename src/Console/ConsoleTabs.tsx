@@ -11,7 +11,7 @@ const StyledUl = styled.ul`
   li {
     cursor: pointer;
     text-align: center;
-    padding: 5px 30px;
+    padding: 5px 20px;
     border-bottom: 2px solid transparent;
 
     &.selected {
@@ -25,7 +25,7 @@ type ConsoleTabsProps = {
   selectedItem: string;
   onSelect: (selected: string) => void;
 };
-export function ConsoleTabs(props: ConsoleTabsProps) {
+export function ConsoleTabs(props: ConsoleTabsProps): React.ReactElement {
   const { items, selectedItem, onSelect } = props;
 
   return (
