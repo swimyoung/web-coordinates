@@ -357,4 +357,8 @@ body {
   box-sizing: border-box;
 }
 
-/*# sourceMappingURL=main.35e82.css.map*/
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+}
+
+/*# sourceMappingURL=main.85da6.css.map*/
