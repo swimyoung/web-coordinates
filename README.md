@@ -1,5 +1,5 @@
-# [WIP] web-coordinates
+# web-coordinates
 
-[web-coordinates](https://swimyoung.github.io/web-coordinates/)
+https://swimyoung.github.io/web-coordinates/
 
 > Suffer from a various browser coordinate API?
