@@ -30,20 +30,20 @@ interface DocumentSize {
 export function useDocumentSize(): DocumentSize {
   const [documentSize, setDocumentSize] = useState<DocumentSize>({
     documentElementSize: {
-      clientWidth: Math.floor(document.documentElement.clientWidth),
-      clientHeight: Math.floor(document.documentElement.clientHeight),
-      offsetWidth: Math.floor(document.documentElement.offsetWidth),
-      offsetHeight: Math.floor(document.documentElement.offsetHeight),
-      scrollWidth: Math.floor(document.documentElement.scrollWidth),
-      scrollHeight: Math.floor(document.documentElement.scrollHeight),
+      clientWidth: document.documentElement.clientWidth,
+      clientHeight: document.documentElement.clientHeight,
+      offsetWidth: document.documentElement.offsetWidth,
+      offsetHeight: document.documentElement.offsetHeight,
+      scrollWidth: document.documentElement.scrollWidth,
+      scrollHeight: document.documentElement.scrollHeight,
     },
     documentBodySize: {
-      clientWidth: Math.floor(document.body.clientWidth),
-      clientHeight: Math.floor(document.body.clientHeight),
-      offsetWidth: Math.floor(document.body.offsetWidth),
-      offsetHeight: Math.floor(document.body.offsetHeight),
-      scrollWidth: Math.floor(document.body.scrollWidth),
-      scrollHeight: Math.floor(document.body.scrollHeight),
+      clientWidth: document.body.clientWidth,
+      clientHeight: document.body.clientHeight,
+      offsetWidth: document.body.offsetWidth,
+      offsetHeight: document.body.offsetHeight,
+      scrollWidth: document.body.scrollWidth,
+      scrollHeight: document.body.scrollHeight,
     },
   });
 
@@ -52,20 +52,20 @@ export function useDocumentSize(): DocumentSize {
       setDocumentSize((state) => ({
         ...state,
         documentElementSize: {
-          clientWidth: Math.floor(document.documentElement.clientWidth),
-          clientHeight: Math.floor(document.documentElement.clientHeight),
-          offsetWidth: Math.floor(document.documentElement.offsetWidth),
-          offsetHeight: Math.floor(document.documentElement.offsetHeight),
-          scrollWidth: Math.floor(document.documentElement.scrollWidth),
-          scrollHeight: Math.floor(document.documentElement.scrollHeight),
+          clientWidth: document.documentElement.clientWidth,
+          clientHeight: document.documentElement.clientHeight,
+          offsetWidth: document.documentElement.offsetWidth,
+          offsetHeight: document.documentElement.offsetHeight,
+          scrollWidth: document.documentElement.scrollWidth,
+          scrollHeight: document.documentElement.scrollHeight,
         },
         documentBodySize: {
-          clientWidth: Math.floor(document.body.clientWidth),
-          clientHeight: Math.floor(document.body.clientHeight),
-          offsetWidth: Math.floor(document.body.offsetWidth),
-          offsetHeight: Math.floor(document.body.offsetHeight),
-          scrollWidth: Math.floor(document.body.scrollWidth),
-          scrollHeight: Math.floor(document.body.scrollHeight),
+          clientWidth: document.body.clientWidth,
+          clientHeight: document.body.clientHeight,
+          offsetWidth: document.body.offsetWidth,
+          offsetHeight: document.body.offsetHeight,
+          scrollWidth: document.body.scrollWidth,
+          scrollHeight: document.body.scrollHeight,
         },
       }));
     };

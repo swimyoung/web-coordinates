@@ -22,12 +22,12 @@ interface DocumentPosition {
 export function useDocumentPosition(): DocumentPosition {
   const [documentPosition, setDocumentPosition] = useState<DocumentPosition>({
     documentElementPosition: {
-      scrollLeft: Math.floor(document.documentElement.scrollLeft),
-      scrollTop: Math.floor(document.documentElement.scrollTop),
+      scrollLeft: document.documentElement.scrollLeft,
+      scrollTop: document.documentElement.scrollTop,
     },
     documentBodyPosition: {
-      scrollLeft: Math.floor(document.body.scrollLeft),
-      scrollTop: Math.floor(document.body.scrollTop),
+      scrollLeft: document.body.scrollLeft,
+      scrollTop: document.body.scrollTop,
     },
   });
 
@@ -36,12 +36,12 @@ export function useDocumentPosition(): DocumentPosition {
       setDocumentPosition((state) => ({
         ...state,
         documentElementPosition: {
-          scrollLeft: Math.floor(document.documentElement.scrollLeft),
-          scrollTop: Math.floor(document.documentElement.scrollTop),
+          scrollLeft: document.documentElement.scrollLeft,
+          scrollTop: document.documentElement.scrollTop,
         },
         documentBodyPosition: {
-          scrollLeft: Math.floor(document.body.scrollLeft),
-          scrollTop: Math.floor(document.body.scrollTop),
+          scrollLeft: document.body.scrollLeft,
+          scrollTop: document.body.scrollTop,
         },
       }));
     };

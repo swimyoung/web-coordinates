@@ -13,10 +13,10 @@ interface WindowSize {
 
 export function useWindowSize(): WindowSize {
   const [windowSize, setWindowSize] = useState<WindowSize>({
-    innerWidth: Math.floor(window.innerWidth),
-    innerHeight: Math.floor(window.innerHeight),
-    screenWidth: Math.floor(window.screen.width),
-    screenHeight: Math.floor(window.screen.height),
+    innerWidth: window.innerWidth,
+    innerHeight: window.innerHeight,
+    screenWidth: window.screen.width,
+    screenHeight: window.screen.height,
   });
 
   useEffect(() => {
@@ -27,10 +27,10 @@ export function useWindowSize(): WindowSize {
         screen: { width, height },
       } = window;
       setWindowSize({
-        innerWidth: Math.floor(innerWidth),
-        innerHeight: Math.floor(innerHeight),
-        screenWidth: Math.floor(width),
-        screenHeight: Math.floor(height),
+        innerWidth: innerWidth,
+        innerHeight: innerHeight,
+        screenWidth: width,
+        screenHeight: height,
       });
     };
 
