@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { ConsoleTabs } from '~/components/ConsoleTabs';
-import { useWindowSize } from '~/hooks/useWindowSize';
-import { useWindowPosition } from '~/hooks/useWindowPosition';
-import ArrowDownUpIcon from '~/components/icons/ArrowDownUpIcon';
+import { ArrowDownUpIcon } from '~/components/icons/ArrowDownUpIcon';
 import {
   addWindowEventListener,
   removeWindowEventListener,
 } from '~/utils/windowEventListen';
+import { ConsoleContentDocument } from './ConsoleContentDocument';
+import { ConsoleContentWindow } from './ConsoleContentWindow';
 
 enum ConsolTabItem {
   Window = 'Window',
@@ -40,16 +40,6 @@ const StyledDiv = styled.div`
 `;
 
 export function Console(): React.ReactElement {
-  const { innerWidth, innerHeight, screenWidth, screenHeight } =
-    useWindowSize();
-  const {
-    pageXOffset,
-    pageYOffset,
-    scrollX,
-    scrollY,
-    mousePosition,
-    touchPositions,
-  } = useWindowPosition();
   const [selectedTab, setSelectedTab] = useState(ConsolTabItem.Window);
   const [height, setHeight] = useState(innerHeight * 0.3);
 
@@ -101,65 +91,15 @@ export function Console(): React.ReactElement {
   const renderContent = () => {
     switch (selectedTab) {
       case ConsolTabItem.Window: {
-        return renderWindowTabContent();
+        return <ConsoleContentWindow />;
       }
       case ConsolTabItem.Document: {
-        return renderDocumentTabContent();
+        return <ConsoleContentDocument />;
       }
       case ConsolTabItem.Box: {
-        return renderBoxTabContent();
+        return <>WIP:</>;
       }
     }
-  };
-
-  const renderWindowTabContent = () => {
-    return (
-      <>
-        <div>innerWidth: {innerWidth}</div>
-        <div>innerHeight: {innerHeight}</div>
-        <div>screenWidth: {screenWidth}</div>
-        <div>screenHeight: {screenHeight}</div>
-        <div>pageXOffset: {pageXOffset}</div>
-        <div>pageYOffset: {pageYOffset}</div>
-        <div>scrollX: {scrollX}</div>
-        <div>scrollY: {scrollY}</div>
-        {touchPositions.length > 0 ? (
-          touchPositions.map((touchPosition, index) => {
-            return (
-              <React.Fragment key={`touch${index}`}>
-                <div>
-                  touch{index}.pageX: {touchPosition.pageX}
-                </div>
-                <div>
-                  touch{index}.pageY: {touchPosition.pageY}
-                </div>
-                <div>
-                  touch{index}.clientX: {touchPosition.clientX}
-                </div>
-                <div>
-                  touch{index}.clientY: {touchPosition.clientY}
-                </div>
-              </React.Fragment>
-            );
-          })
-        ) : mousePosition ? (
-          <>
-            <div>mouse.pageX: {mousePosition.pageX}</div>
-            <div>mouse.pageY: {mousePosition.pageY}</div>
-            <div>mouse.clientX: {mousePosition.clientX}</div>
-            <div>mouse.clientY: {mousePosition.clientY}</div>
-          </>
-        ) : null}
-      </>
-    );
-  };
-
-  const renderDocumentTabContent = () => {
-    return <>WIP:</>;
-  };
-
-  const renderBoxTabContent = () => {
-    return <>WIP:</>;
   };
 
   return (
