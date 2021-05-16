@@ -4,6 +4,10 @@ import { ConsoleTabs } from '~/components/ConsoleTabs';
 import { useWindowSize } from '~/hooks/useWindowSize';
 import { useWindowPosition } from '~/hooks/useWindowPosition';
 import ArrowDownUpIcon from '~/components/icons/ArrowDownUpIcon';
+import {
+  addWindowEventListener,
+  removeWindowEventListener,
+} from '~/utils/windowEventListen';
 
 enum ConsolTabItem {
   Window = 'Window',
@@ -71,11 +75,11 @@ export function Console(): React.ReactElement {
       );
     };
     const handleWindowTouchEnd = () => {
-      window.removeEventListener('touchend', handleWindowTouchEnd);
-      window.removeEventListener('touchmove', handleWindowTouchMove);
+      removeWindowEventListener('touchend', handleWindowTouchEnd);
+      removeWindowEventListener('touchmove', handleWindowTouchMove);
     };
-    window.addEventListener('touchend', handleWindowTouchEnd);
-    window.addEventListener('touchmove', handleWindowTouchMove);
+    addWindowEventListener('touchend', handleWindowTouchEnd);
+    addWindowEventListener('touchmove', handleWindowTouchMove);
   };
   const handleMouseDownResize = (event: React.MouseEvent) => {
     event.preventDefault();
@@ -87,11 +91,11 @@ export function Console(): React.ReactElement {
     };
     const handleWindowMouseUp = (event: MouseEvent) => {
       resizeConsoleHeight(anchoredHeight + anchoredPageY - event.pageY);
-      window.removeEventListener('mouseup', handleWindowMouseUp);
-      window.removeEventListener('mousemove', handleWindowMouseMove);
+      removeWindowEventListener('mouseup', handleWindowMouseUp);
+      removeWindowEventListener('mousemove', handleWindowMouseMove);
     };
-    window.addEventListener('mouseup', handleWindowMouseUp);
-    window.addEventListener('mousemove', handleWindowMouseMove);
+    addWindowEventListener('mouseup', handleWindowMouseUp);
+    addWindowEventListener('mousemove', handleWindowMouseMove);
   };
 
   const renderContent = () => {

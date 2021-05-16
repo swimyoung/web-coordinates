@@ -1,4 +1,8 @@
 import { useState, useEffect } from 'react';
+import {
+  addWindowEventListener,
+  removeWindowEventListener,
+} from '~/utils/windowEventListen';
 
 interface WindowPosition {
   pageXOffset: number;
@@ -72,13 +76,13 @@ export function useWindowPosition(): WindowPosition {
       }));
     };
 
-    window.addEventListener('mousemove', handleWindowMouseMove);
-    window.addEventListener('touchmove', handleTouchMove);
-    window.addEventListener('scroll', handleWindowScroll);
+    addWindowEventListener('mousemove', handleWindowMouseMove);
+    addWindowEventListener('touchmove', handleTouchMove);
+    addWindowEventListener('scroll', handleWindowScroll);
     return () => {
-      window.removeEventListener('mousemove', handleWindowMouseMove);
-      window.removeEventListener('touchmove', handleTouchMove);
-      window.removeEventListener('scroll', handleWindowScroll);
+      removeWindowEventListener('mousemove', handleWindowMouseMove);
+      removeWindowEventListener('touchmove', handleTouchMove);
+      removeWindowEventListener('scroll', handleWindowScroll);
     };
   }, []);
 

@@ -1,4 +1,8 @@
 import { useState, useEffect } from 'react';
+import {
+  addWindowEventListener,
+  removeWindowEventListener,
+} from '~/utils/windowEventListen';
 
 interface WindowSize {
   innerWidth: number;
@@ -22,7 +26,6 @@ export function useWindowSize(): WindowSize {
         innerHeight,
         screen: { width, height },
       } = window;
-
       setWindowSize({
         innerWidth: Math.floor(innerWidth),
         innerHeight: Math.floor(innerHeight),
@@ -31,9 +34,9 @@ export function useWindowSize(): WindowSize {
       });
     };
 
-    window.addEventListener('resize', handleWindowResize);
+    addWindowEventListener('resize', handleWindowResize);
     return () => {
-      window.removeEventListener('resize', handleWindowResize);
+      removeWindowEventListener('resize', handleWindowResize);
     };
   }, []);
 
