@@ -151,9 +151,9 @@ function Box(props: BoxProps): React.ReactElement {
 
   const width = 150;
   const height = 150;
-  const padding = 30;
+  const padding = 35;
   const border = 30;
-  const margin = 30;
+  const margin = 25;
   const marginBoundaryArea = {
     x: 0,
     y: 0,
@@ -263,15 +263,15 @@ function Box(props: BoxProps): React.ReactElement {
         <h1>{name}</h1>
         box-sizing: content-box
         <br />
-        width: {width}px
-        <br />
-        height: {height}px
+        padding: {padding}px
         <br />
         border: {border}px
         <br />
-        padding: {padding}px
-        <br />
         margin: {margin}px
+        <br />
+        width: {width}px
+        <br />
+        height: {height}px
         <div
           style={{
             position: 'relative',

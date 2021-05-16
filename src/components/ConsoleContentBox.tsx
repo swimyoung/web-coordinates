@@ -24,16 +24,16 @@ export function ConsoleContentBox(
       <div>clientBoundingRect.left {boxBoundingRect.left}</div>
       <div>clientBoundingRect.width {boxBoundingRect.width}</div>
       <div>clientBoundingRect.height {boxBoundingRect.height}</div>
+      <div>scrollLeft {boxPosition.scrollLeft}</div>
+      <div>scrollTop {boxPosition.scrollTop}</div>
+      <div>clientLeft {boxPosition.clientLeft}</div>
+      <div>clientTop {boxPosition.clientTop}</div>
       <div>clientWidth {boxSize.clientWidth}</div>
       <div>clientHeight {boxSize.clientHeight}</div>
       <div>offsetWidth {boxSize.offsetWidth}</div>
       <div>offsetHeight {boxSize.offsetHeight}</div>
       <div>scrollWidth {boxSize.scrollWidth}</div>
       <div>scrollHeight {boxSize.scrollHeight}</div>
-      <div>clientLeft {boxPosition.clientLeft}</div>
-      <div>clientTop {boxPosition.clientTop}</div>
-      <div>scrollLeft {boxPosition.scrollLeft}</div>
-      <div>scrollTop {boxPosition.scrollTop}</div>
     </>
   );
 }
