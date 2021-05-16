@@ -25,7 +25,6 @@ export function ConsoleContentDocument(): React.ReactElement {
         documentElement.scrollLeft: {documentElementPosition.scrollLeft}
       </div>
       <div>documentElement.scrollTop: {documentElementPosition.scrollTop}</div>
-      <br />
       <div>body.clientWidth: {documentBodySize.clientWidth}</div>
       <div>body.clientHeight: {documentBodySize.clientHeight}</div>
       <div>body.offsetWidth: {documentBodySize.offsetWidth}</div>

@@ -1,5 +1,5 @@
 import React, { useMemo, useContext } from 'react';
-import { AppBoundaryContext } from '~/App';
+import { AppStateContext } from '~/App';
 import { useWindowPosition } from '~/hooks/useWindowPosition';
 
 type CoordinateProps = {
@@ -7,8 +7,12 @@ type CoordinateProps = {
 };
 
 function CoordinateNumbers(props: CoordinateProps): React.ReactElement {
+  const {
+    appState: {
+      boundary: { width, height },
+    },
+  } = useContext(AppStateContext);
   const { unit = 100 } = props;
-  const { width, height } = useContext(AppBoundaryContext);
   const { pageXOffset, pageYOffset } = useWindowPosition();
 
   return (

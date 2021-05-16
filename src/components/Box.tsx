@@ -1,33 +1,114 @@
-import React, { useState, useRef, useContext } from 'react';
-import { AppBoundaryContext } from '~/App';
+import React, { useState, useRef, useContext, useEffect, memo } from 'react';
+import { AppStateContext } from '~/App';
 import {
   addWindowEventListener,
   removeWindowEventListener,
 } from '~/utils/windowEventListen';
 
-type BoxPosition = {
+interface BoxBoundingRect {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  left: number;
+  top: number;
+  right: number;
+  bottom: number;
+}
+
+interface BoxSize {
+  clientWidth: number;
+  clientHeight: number;
+  offsetWidth: number;
+  offsetHeight: number;
+  scrollWidth: number;
+  scrollHeight: number;
+}
+
+interface BoxPosition {
+  clientLeft: number;
+  clientTop: number;
+  scrollLeft: number;
+  scrollTop: number;
+}
+
+export interface BoxCoordinateValues {
+  boxBoundingRect: BoxBoundingRect;
+  boxSize: BoxSize;
+  boxPosition: BoxPosition;
+}
+
+type BoxLocation = {
   x: number;
   y: number;
 };
 
-function Box(): React.ReactElement {
-  const box = useRef<HTMLDivElement>(null);
-  const [boxPosition, setBoxPosition] = useState<BoxPosition>({
+type BoxProps = {
+  name?: string;
+  onChangeBoxCoordinateValues?: (
+    boxCoordinateValues: BoxCoordinateValues,
+  ) => void;
+};
+
+function Box(props: BoxProps): React.ReactElement {
+  const { name = 'Box', onChangeBoxCoordinateValues } = props;
+  const boxElementRef = useRef<HTMLDivElement>(null);
+  const [boxLocation, setBoxLocation] = useState<BoxLocation>({
     x: 100,
     y: 100,
   });
-  const boundary = useContext(AppBoundaryContext);
+  const {
+    appState: { boundary },
+  } = useContext(AppStateContext);
+  const getBoxCoordinateValues = () => {
+    const { current: element } = boxElementRef;
+    if (!element) {
+      return;
+    }
 
-  const width = 150;
-  const height = 150;
-  const padding = 30;
-  const border = 30;
-  const margin = 30;
+    return {
+      boxBoundingRect: element.getBoundingClientRect(),
+      boxSize: {
+        clientWidth: element.clientWidth,
+        clientHeight: element.clientHeight,
+        offsetWidth: element.offsetWidth,
+        offsetHeight: element.offsetHeight,
+        scrollWidth: element.scrollWidth,
+        scrollHeight: element.scrollHeight,
+      },
+      boxPosition: {
+        clientLeft: element.clientLeft,
+        clientTop: element.clientTop,
+        scrollLeft: element.scrollLeft,
+        scrollTop: element.scrollTop,
+      },
+    };
+  };
 
-  function handleMouseDown(
+  useEffect(() => {
+    const params = getBoxCoordinateValues();
+    params && onChangeBoxCoordinateValues(params);
+  }, [boxLocation]);
+  useEffect(
+    () => {
+      const params = getBoxCoordinateValues();
+      params && onChangeBoxCoordinateValues(params);
+    },
+    [
+      // there isn't changing of box size
+      // will be added in the future
+    ],
+  );
+
+  const handleBoxElementScroll = () => {
+    const params = getBoxCoordinateValues();
+    params && onChangeBoxCoordinateValues(params);
+  };
+
+  const handleBoxElementAndBoxSVGMouseDown = (
     event: React.MouseEvent<SVGElement | HTMLDivElement>,
-  ) {
-    const { current: element } = box;
+  ) => {
+    const { current: element } = boxElementRef;
     if (!element) {
       return;
     }
@@ -57,7 +138,7 @@ function Box(): React.ReactElement {
         y = 0;
       }
 
-      setBoxPosition({ x, y });
+      setBoxLocation({ x, y });
     };
 
     const handleWindowMouseUp = () => {
@@ -66,8 +147,13 @@ function Box(): React.ReactElement {
     };
     addWindowEventListener('mouseup', handleWindowMouseUp);
     addWindowEventListener('mousemove', handleWindowMouseMove);
-  }
+  };
 
+  const width = 150;
+  const height = 150;
+  const padding = 30;
+  const border = 30;
+  const margin = 30;
   const marginBoundaryArea = {
     x: 0,
     y: 0,
@@ -97,11 +183,11 @@ function Box(): React.ReactElement {
       <svg
         style={{
           position: 'absolute',
-          transform: `translate(${boxPosition.x}px, ${boxPosition.y}px)`,
+          transform: `translate(${boxLocation.x}px, ${boxLocation.y}px)`,
         }}
         width={marginBoundaryArea.width}
         height={marginBoundaryArea.height}
-        onMouseDown={handleMouseDown}
+        onMouseDown={handleBoxElementAndBoxSVGMouseDown}
       >
         <rect
           x={marginBoundaryArea.x + 1}
@@ -158,7 +244,7 @@ function Box(): React.ReactElement {
         />
       </svg>
       <div
-        ref={box}
+        ref={boxElementRef}
         style={{
           cursor: 'move',
           position: 'absolute',
@@ -169,11 +255,12 @@ function Box(): React.ReactElement {
           margin: `${margin}px`,
           boxSizing: 'content-box',
           overflow: 'scroll',
-          transform: `translate(${boxPosition.x}px, ${boxPosition.y}px)`,
+          transform: `translate(${boxLocation.x}px, ${boxLocation.y}px)`,
         }}
-        onMouseDown={handleMouseDown}
+        onMouseDown={handleBoxElementAndBoxSVGMouseDown}
+        onScroll={handleBoxElementScroll}
       >
-        <h1>BOX</h1>
+        <h1>{name}</h1>
         box-sizing: content-box
         <br />
         width: {width}px
@@ -202,4 +289,5 @@ function Box(): React.ReactElement {
   );
 }
 
-export { Box };
+const MemorizedBox = memo(Box);
+export { Box, MemorizedBox };

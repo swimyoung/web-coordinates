@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState, memo } from 'react';
 import styled from 'styled-components';
 import { ConsoleTabs } from '~/components/ConsoleTabs';
 import { ArrowDownUpIcon } from '~/components/icons/ArrowDownUpIcon';
@@ -8,12 +8,6 @@ import {
 } from '~/utils/windowEventListen';
 import { ConsoleContentDocument } from './ConsoleContentDocument';
 import { ConsoleContentWindow } from './ConsoleContentWindow';
-
-enum ConsolTabItem {
-  Window = 'Window',
-  Document = 'Document',
-  Box = 'Box',
-}
 
 const StyledDiv = styled.div`
   background-color: #fff;
@@ -39,8 +33,31 @@ const StyledDiv = styled.div`
   }
 `;
 
-export function Console(): React.ReactElement {
-  const [selectedTab, setSelectedTab] = useState(ConsolTabItem.Window);
+interface ConsoleTab {
+  tab: string;
+  render: React.ReactElement | string | (() => React.ReactElement | string);
+}
+
+type ConsoleProps = {
+  additionalTabs?: ConsoleTab[];
+};
+
+function Console(props: ConsoleProps): React.ReactElement {
+  const { additionalTabs } = props;
+  const tabs = useMemo<ConsoleTab[]>(() => {
+    return [
+      {
+        tab: 'Window',
+        render: <ConsoleContentWindow />,
+      },
+      {
+        tab: 'Document',
+        render: <ConsoleContentDocument />,
+      },
+      ...additionalTabs,
+    ];
+  }, [additionalTabs]);
+  const [selectedTab, setSelectedTab] = useState('Window');
   const [height, setHeight] = useState(innerHeight * 0.3);
 
   const resizeConsoleHeight = (nextHeight: number) => {
@@ -89,17 +106,13 @@ export function Console(): React.ReactElement {
   };
 
   const renderContent = () => {
-    switch (selectedTab) {
-      case ConsolTabItem.Window: {
-        return <ConsoleContentWindow />;
-      }
-      case ConsolTabItem.Document: {
-        return <ConsoleContentDocument />;
-      }
-      case ConsolTabItem.Box: {
-        return <>WIP:</>;
-      }
+    const consoleTab = tabs.find(({ tab }) => tab === selectedTab);
+    if (!consoleTab) {
+      return;
     }
+
+    const { render } = consoleTab;
+    return typeof render === 'function' ? render() : render;
   };
 
   return (
@@ -117,15 +130,13 @@ export function Console(): React.ReactElement {
         }}
       />
       <ConsoleTabs
-        items={[
-          ConsolTabItem.Window,
-          ConsolTabItem.Document,
-          ConsolTabItem.Box,
-        ]}
         selectedItem={selectedTab}
-        onSelect={(item) => setSelectedTab(item as ConsolTabItem)}
+        items={tabs.map(({ tab }) => tab)}
+        onSelect={(item) => setSelectedTab(item)}
       />
       <div className="console-content-container">{renderContent()}</div>
     </StyledDiv>
   );
 }
+const MemorizedConsole = memo(Console);
+export { Console, MemorizedConsole };
