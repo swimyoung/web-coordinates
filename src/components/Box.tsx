@@ -1,16 +1,16 @@
 import React, { useState, useRef, useContext } from 'react';
 import { AppBoundaryContext } from '~/App';
+import {
+  addWindowEventListener,
+  removeWindowEventListener,
+} from '~/utils/windowEventListen';
 
 type BoxPosition = {
   x: number;
   y: number;
 };
 
-type BoxProps = {
-  //
-};
-
-function Box(props: BoxProps): React.ReactElement {
+function Box(): React.ReactElement {
   const box = useRef<HTMLDivElement>(null);
   const [boxPosition, setBoxPosition] = useState<BoxPosition>({
     x: 100,
@@ -38,6 +38,7 @@ function Box(props: BoxProps): React.ReactElement {
     const baseY = boundingClientRect.y + window.pageYOffset - margin - pageY;
 
     const handleWindowMouseMove = (event: MouseEvent) => {
+      event.preventDefault();
       const { pageX, pageY } = event;
       const boxAreaWidth = width + border * 2 + padding * 2 + margin * 2;
       const boxAreaHeight = height + border * 2 + padding * 2 + margin * 2;
@@ -60,13 +61,11 @@ function Box(props: BoxProps): React.ReactElement {
     };
 
     const handleWindowMouseUp = () => {
-      window.removeEventListener('mouseup', handleWindowMouseUp);
-      window.removeEventListener('mousemove', handleWindowMouseMove);
+      removeWindowEventListener('mouseup', handleWindowMouseUp);
+      removeWindowEventListener('mousemove', handleWindowMouseMove);
     };
-
-    window.addEventListener('mouseup', handleWindowMouseUp);
-    window.addEventListener('mousemove', handleWindowMouseMove);
-    event.preventDefault();
+    addWindowEventListener('mouseup', handleWindowMouseUp);
+    addWindowEventListener('mousemove', handleWindowMouseMove);
   }
 
   const marginBoundaryArea = {
@@ -163,18 +162,41 @@ function Box(props: BoxProps): React.ReactElement {
         style={{
           cursor: 'move',
           position: 'absolute',
-          color: '#aaaaaa',
           width: `${width}px`,
           height: `${height}px`,
           border: `${border}px solid rgba(0, 0, 0, 0)`,
           padding: `${padding}px`,
           margin: `${margin}px`,
-          overflow: 'auto',
+          boxSizing: 'content-box',
+          overflow: 'scroll',
           transform: `translate(${boxPosition.x}px, ${boxPosition.y}px)`,
         }}
         onMouseDown={handleMouseDown}
       >
-        {/* TODO: */}
+        <h1>BOX</h1>
+        box-sizing: content-box
+        <br />
+        width: {width}px
+        <br />
+        height: {height}px
+        <br />
+        border: {border}px
+        <br />
+        padding: {padding}px
+        <br />
+        margin: {margin}px
+        <div
+          style={{
+            position: 'relative',
+            width: `${width * 4}px`,
+            height: `${height * 4}px`,
+          }}
+        >
+          <div style={{ position: 'absolute', left: 0, bottom: 0 }}>
+            scroll 👉👉👉
+          </div>
+          <div style={{ position: 'absolute', right: 0, bottom: 0 }}>👍</div>
+        </div>
       </div>
     </div>
   );
