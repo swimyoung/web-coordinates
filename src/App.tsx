@@ -1,15 +1,15 @@
-import React, { useMemo } from 'react';
-import { RectangularCoordinate } from './RectangularCoordinate';
-import { Box } from './Box';
-import { Console } from './Console';
-import { useWindowSize } from './useWindowSize';
+import React, { useMemo, createContext } from 'react';
+import { RectangularCoordinate } from '~/components/RectangularCoordinate';
+import { Box } from '~/components/Box';
+import { Console } from '~/components/Console';
+import { useWindowSize } from '~/hooks/useWindowSize';
 
 type Boundary = {
   width: number;
   height: number;
 };
 
-export const AppBoundaryContext = React.createContext<Boundary>({
+export const AppBoundaryContext = createContext<Boundary>({
   width: 0,
   height: 0,
 });

@@ -1,5 +1,5 @@
 import React, { useState, useRef, useContext } from 'react';
-import { AppBoundaryContext } from './App';
+import { AppBoundaryContext } from '~/App';
 
 type BoxPosition = {
   x: number;

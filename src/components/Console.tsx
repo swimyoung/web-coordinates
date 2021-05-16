@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { ConsoleTabs } from './ConsoleTabs';
-import { useWindowSize } from '../useWindowSize';
-import { useWindowPosition } from '../useWindowPosition';
-import ArrowDownUpIcon from '../icons/ArrowDownUpIcon';
+import { ConsoleTabs } from '~/components/ConsoleTabs';
+import { useWindowSize } from '~/hooks/useWindowSize';
+import { useWindowPosition } from '~/hooks/useWindowPosition';
+import ArrowDownUpIcon from '~/components/icons/ArrowDownUpIcon';
 
 enum ConsolTabItem {
   Window = 'Window',
@@ -36,12 +36,8 @@ const StyledDiv = styled.div`
 `;
 
 export function Console(): React.ReactElement {
-  const {
-    innerWidth,
-    innerHeight,
-    screenWidth,
-    screenHeight,
-  } = useWindowSize();
+  const { innerWidth, innerHeight, screenWidth, screenHeight } =
+    useWindowSize();
   const {
     pageXOffset,
     pageYOffset,

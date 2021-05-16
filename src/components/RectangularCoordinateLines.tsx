@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { AppBoundaryContext } from '../App';
+import { AppBoundaryContext } from '~/App';
 
 type CoordinateLinesProps = {
   //

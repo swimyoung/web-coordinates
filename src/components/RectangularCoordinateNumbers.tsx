@@ -1,6 +1,6 @@
 import React, { useMemo, useContext } from 'react';
-import { AppBoundaryContext } from '../App';
-import { useWindowPosition } from '../useWindowPosition';
+import { AppBoundaryContext } from '~/App';
+import { useWindowPosition } from '~/hooks/useWindowPosition';
 
 type CoordinateProps = {
   unit?: number;

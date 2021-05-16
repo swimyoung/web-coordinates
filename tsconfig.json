@@ -10,14 +10,10 @@
     "preserveConstEnums": true,
     "downlevelIteration": true,
     "declaration": false,
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "baseUrl": ".",
+    "paths": {
+      "~/*": ["src/*"]
+    }
   },
-  "include": ["src/**/*"],
-  "exclude": [
-    "node_modules",
-    "dist",
-    "**/*.test.ts",
-    "**/*.spec.ts",
-    "**/*.stories.ts"
-  ]
 }

@@ -5,8 +5,18 @@ module.exports = {
     node: true,
   },
   parser: '@typescript-eslint/parser',
+  settings: {
+    react: {
+      version: 'detect',
+    },
+    'import/parsers': {
+      '@typescript-eslint/parser': ['.ts', '.tsx'],
+    },
+    'import/resolver': { typescript: {} },
+  },
   extends: [
     'eslint:recommended',
+    'plugin:import/recommended',
     'plugin:jest/recommended',
     'plugin:react/recommended',
     'plugin:@typescript-eslint/recommended',
@@ -30,9 +40,4 @@ module.exports = {
       },
     },
   ],
-  settings: {
-    react: {
-      version: 'detect', // React version. "detect" automatically picks the version you have installed.
-    },
-  },
 };

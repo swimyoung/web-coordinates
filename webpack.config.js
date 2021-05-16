@@ -10,7 +10,15 @@ const hash = isProductionMode ? 'contenthash' : 'hash';
 
 module.exports = {
   resolve: {
-    extensions: ['.ts', '.tsx', '.js'],
+    extensions: [
+      '.ts',
+      '.tsx',
+      // for babel
+      '.js',
+    ],
+    alias: {
+      '~': `${__dirname}/src`,
+    },
   },
   entry: `${__dirname}/src/index.tsx`,
   output: {

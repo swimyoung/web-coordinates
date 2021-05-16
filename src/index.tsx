@@ -1,7 +1,7 @@
 import 'normalize.css';
 import './index.css';
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { App } from './App';
+import { render } from 'react-dom';
+import { App } from '~/App';
 
-ReactDOM.render(<App />, document.getElementById('app'));
+render(<App />, document.getElementById('app'));

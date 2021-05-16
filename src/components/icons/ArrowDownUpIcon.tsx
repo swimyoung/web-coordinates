@@ -1,6 +1,9 @@
 import React from 'react';
 
-export default function ArrowDownUpIcon(props: any): React.ReactElement {
+export default function ArrowDownUpIcon(
+  /* eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any */
+  props: any,
+): React.ReactElement {
   return (
     <svg
       {...props}
