@@ -280,9 +280,9 @@ function Box(props: BoxProps): React.ReactElement {
           }}
         >
           <div style={{ position: 'absolute', left: 0, bottom: 0 }}>
-            scroll 👉👉👉
+            scroll to left
           </div>
-          <div style={{ position: 'absolute', right: 0, bottom: 0 }}>👍</div>
+          <div style={{ position: 'absolute', right: 0, bottom: 0 }}>!!</div>
         </div>
       </div>
     </div>
