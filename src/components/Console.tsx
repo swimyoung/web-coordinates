@@ -1,7 +1,7 @@
 import React, { useMemo, useState, memo } from 'react';
 import styled from 'styled-components';
 import { ConsoleTabs } from '~/components/ConsoleTabs';
-import { ArrowDownUpIcon } from '~/components/icons/ArrowDownUpIcon';
+import { ArrowUpShort } from '~/components/icons/ArrowUpShort';
 import {
   addWindowEventListener,
   removeWindowEventListener,
@@ -11,6 +11,8 @@ import { ConsoleContentWindow } from './ConsoleContentWindow';
 
 const StyledDiv = styled.div`
   background-color: #fff;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
   opacity: 0.8;
   position: fixed;
   bottom: 0;
@@ -24,6 +26,22 @@ const StyledDiv = styled.div`
     height: 5px;
     background: 0 0;
     cursor: ns-resize;
+
+    svg {
+      display: none;
+    }
+
+    @media only screen and (max-width: 375px) {
+      height: 30px;
+
+      svg {
+        margin: 0 auto;
+        display: block;
+        width: 100%;
+        height: 100%;
+        touch-action: none;
+      }
+    }
   }
 
   .console-content-container {
@@ -117,18 +135,10 @@ function Console(props: ConsoleProps): React.ReactElement {
 
   return (
     <StyledDiv style={{ height: `${height}px`, width: '100%' }}>
-      <div className="console-resize-bar" onMouseDown={handleMouseDownResize} />
-      <ArrowDownUpIcon
-        onMouseDown={handleMouseDownResize}
-        onTouchStart={handleTouchStartResize}
-        style={{
-          position: 'absolute',
-          right: 0,
-          margin: '10px',
-          cursor: 'pointer',
-          touchAction: 'none',
-        }}
-      />
+      <div className="console-resize-bar" onMouseDown={handleMouseDownResize}>
+        <ArrowUpShort onTouchStart={handleTouchStartResize} />
+      </div>
+
       <ConsoleTabs
         selectedItem={selectedTab}
         items={tabs.map(({ tab }) => tab)}
