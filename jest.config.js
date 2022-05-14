@@ -3,8 +3,8 @@ module.exports = {
   transform: {
     '^.+\\.tsx?$': 'ts-jest',
   },
-  testURL: 'http://localhost',
   testRegex: '(/__tests__/.*|\\.(test|spec))\\.tsx?$',
+  testEnvironment: 'jsdom',
   moduleFileExtensions: [
     'ts',
     'tsx',
