@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React from 'react';
 import { CoordinateLines } from '~/components/RectangularCoordinateLines';
 import { CoordinateNumbers } from '~/components/RectangularCoordinateNumbers';
 
@@ -11,5 +11,4 @@ function RectangularCoordinate(): React.ReactElement {
   );
 }
 
-const MemorizedRectangularCoordinate = memo(RectangularCoordinate);
-export { RectangularCoordinate, MemorizedRectangularCoordinate };
+export { RectangularCoordinate };

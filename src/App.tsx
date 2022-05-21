@@ -1,11 +1,5 @@
-import React, {
-  useMemo,
-  useCallback,
-  createContext,
-  useState,
-  useEffect,
-} from 'react';
-import { MemorizedRectangularCoordinate } from '~/components/RectangularCoordinate';
+import React, { useMemo, createContext, useState, useEffect } from 'react';
+import { RectangularCoordinate } from '~/components/RectangularCoordinate';
 import { Box, BoxCoordinateValues } from '~/components/Box';
 import { MemorizedConsole } from '~/components/Console';
 import { useWindowSize } from '~/hooks/useWindowSize';
@@ -70,7 +64,7 @@ function App(): React.ReactElement {
     <AppStateContext.Provider
       value={useMemo(() => ({ appState, setAppState }), [appState])}
     >
-      <MemorizedRectangularCoordinate />
+      <RectangularCoordinate />
       {useMemo(
         () =>
           boxes.map((name) => {

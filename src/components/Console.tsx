@@ -1,7 +1,7 @@
 import React, { useMemo, useState, memo } from 'react';
 import styled from 'styled-components';
 import { ConsoleTabs } from '~/components/ConsoleTabs';
-import { ArrowUpShort } from '~/components/icons/ArrowUpShort';
+import { ArrowUpShort } from '~/components/ArrowUpShort';
 import {
   addWindowEventListener,
   removeWindowEventListener,
