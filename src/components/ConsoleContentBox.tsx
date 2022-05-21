@@ -5,9 +5,7 @@ type ConsoleContentBoxProps = {
   boxName: string;
 };
 
-export function ConsoleContentBox(
-  props: ConsoleContentBoxProps,
-): React.ReactElement {
+export function ConsoleContentBox(props: ConsoleContentBoxProps) {
   const {
     appState: { boxesCoordinateValues },
   } = useContext(AppStateContext);

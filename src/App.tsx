@@ -31,7 +31,7 @@ export const AppStateContext = createContext<{
   },
 });
 
-function App(): React.ReactElement {
+function App() {
   const windowSize = useWindowSize();
   const [appState, setAppState] = useState<AppState>({
     boxesCoordinateValues: {},

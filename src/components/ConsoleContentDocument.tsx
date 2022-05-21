@@ -2,7 +2,7 @@ import React from 'react';
 import { useDocumentPosition } from '~/hooks/useDocumentPosition';
 import { useDocumentSize } from '~/hooks/useDocumentSize';
 
-export function ConsoleContentDocument(): React.ReactElement {
+export function ConsoleContentDocument() {
   const { documentElementSize, documentBodySize } = useDocumentSize();
   const { documentElementPosition, documentBodyPosition } =
     useDocumentPosition();

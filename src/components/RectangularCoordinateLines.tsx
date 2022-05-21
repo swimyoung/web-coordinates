@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { AppStateContext } from '~/App';
 
-function CoordinateLines(): React.ReactElement {
+function CoordinateLines() {
   const {
     appState: {
       boundary: { width, height },

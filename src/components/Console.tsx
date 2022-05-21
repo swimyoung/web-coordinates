@@ -60,7 +60,7 @@ type ConsoleProps = {
   additionalTabs?: ConsoleTab[];
 };
 
-function Console(props: ConsoleProps): React.ReactElement {
+function Console(props: ConsoleProps) {
   const { additionalTabs } = props;
   const tabs = useMemo<ConsoleTab[]>(() => {
     return [

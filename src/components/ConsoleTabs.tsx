@@ -25,7 +25,7 @@ type ConsoleTabsProps = {
   selectedItem: string;
   onSelect: (selected: string) => void;
 };
-export function ConsoleTabs(props: ConsoleTabsProps): React.ReactElement {
+export function ConsoleTabs(props: ConsoleTabsProps) {
   const { items, selectedItem, onSelect } = props;
 
   return (

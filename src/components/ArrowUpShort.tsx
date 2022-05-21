@@ -3,7 +3,7 @@ import React from 'react';
 export function ArrowUpShort(
   /* eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any */
   props: any,
-): React.ReactElement {
+) {
   return (
     <svg
       {...props}

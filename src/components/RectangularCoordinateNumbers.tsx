@@ -6,7 +6,7 @@ type CoordinateProps = {
   unit?: number;
 };
 
-function CoordinateNumbers(props: CoordinateProps): React.ReactElement {
+function CoordinateNumbers(props: CoordinateProps) {
   const {
     appState: {
       boundary: { width, height },

@@ -50,7 +50,7 @@ type BoxProps = {
   ) => void;
 };
 
-function Box(props: BoxProps): React.ReactElement {
+function Box(props: BoxProps) {
   const { name = 'Box', onChangeBoxCoordinateValues } = props;
   const boxElementRef = useRef<HTMLDivElement>(null);
   const [boxLocation, setBoxLocation] = useState<BoxLocation>({

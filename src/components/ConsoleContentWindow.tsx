@@ -2,7 +2,7 @@ import React from 'react';
 import { useWindowPosition } from '~/hooks/useWindowPosition';
 import { useWindowSize } from '~/hooks/useWindowSize';
 
-export function ConsoleContentWindow(): React.ReactElement {
+export function ConsoleContentWindow() {
   const { innerWidth, innerHeight, screenWidth, screenHeight } =
     useWindowSize();
   const {
