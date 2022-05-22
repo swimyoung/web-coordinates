@@ -85,21 +85,6 @@ function Box(props: BoxProps) {
     };
   };
 
-  useEffect(() => {
-    const params = getBoxCoordinateValues();
-    params && onChangeBoxCoordinateValues(params);
-  }, [boxLocation]);
-  useEffect(
-    () => {
-      const params = getBoxCoordinateValues();
-      params && onChangeBoxCoordinateValues(params);
-    },
-    [
-      // there isn't changing of box size
-      // will be added in the future
-    ],
-  );
-
   const handleBoxElementScroll = () => {
     const params = getBoxCoordinateValues();
     params && onChangeBoxCoordinateValues(params);
@@ -139,6 +124,8 @@ function Box(props: BoxProps) {
       }
 
       setBoxLocation({ x, y });
+      const params = getBoxCoordinateValues();
+      params && onChangeBoxCoordinateValues(params);
     };
 
     const handleWindowMouseUp = () => {

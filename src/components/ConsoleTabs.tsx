@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 const StyledUl = styled.ul`
@@ -30,19 +30,15 @@ export function ConsoleTabs(props: ConsoleTabsProps) {
 
   return (
     <StyledUl>
-      {useMemo(
-        () =>
-          items.map((item, index) => (
-            <li
-              key={`${index}-${item}`}
-              className={`${selectedItem === item ? 'selected' : ''}`}
-              onClick={() => onSelect(item)}
-            >
-              {item}
-            </li>
-          )),
-        [items],
-      )}
+      {items.map((item, index) => (
+        <li
+          key={`${index}-${item}`}
+          className={`${selectedItem === item ? 'selected' : ''}`}
+          onClick={() => onSelect(item)}
+        >
+          {item}
+        </li>
+      ))}
     </StyledUl>
   );
 }

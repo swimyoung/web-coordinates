@@ -41,7 +41,7 @@ function CoordinateNumbers(props: CoordinateProps) {
                 </div>
               );
             }),
-          [width, pageXOffset],
+          [width, pageXOffset, unit],
         )}
       </div>
       {/* y coordinate line numbers */}
@@ -68,7 +68,7 @@ function CoordinateNumbers(props: CoordinateProps) {
                 </div>
               );
             }),
-          [height, pageYOffset],
+          [height, pageYOffset, unit],
         )}
       </div>
     </>
