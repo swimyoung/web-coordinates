@@ -1,9 +1,17 @@
-import React, { useMemo, createContext, useState, useEffect } from 'react';
+import React, {
+  useMemo,
+  createContext,
+  useState,
+  useEffect,
+  memo,
+} from 'react';
 import { RectangularCoordinate } from '~/components/RectangularCoordinate';
 import { Box, BoxCoordinateValues } from '~/components/Box';
-import { MemorizedConsole } from '~/components/Console';
+import { Console } from '~/components/Console';
 import { useWindowSize } from '~/hooks/useWindowSize';
 import { ConsoleContentBox } from './components/ConsoleContentBox';
+
+const MemorizedConsole = memo(Console);
 
 type AppState = {
   boxesCoordinateValues: {
