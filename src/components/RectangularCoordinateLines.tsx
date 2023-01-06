@@ -1,12 +1,9 @@
-import React, { useContext } from 'react';
-import { AppStateContext } from '~/App';
+import React from 'react';
+import { useBoundary } from '~/hooks/useBoundary';
 
 function CoordinateLines() {
-  const {
-    appState: {
-      boundary: { width, height },
-    },
-  } = useContext(AppStateContext);
+  const { width, height } = useBoundary();
+
   return (
     <svg style={{ position: 'absolute' }} width={width} height={height}>
       {[

@@ -25,6 +25,12 @@ module.exports = {
   ],
   rules: {
     'no-console': 0,
+    'react-hooks/exhaustive-deps': [
+      'warn',
+      {
+        additionalHooks: '(useRecoilCallback|useRecoilTransaction_UNSTABLE)',
+      },
+    ],
   },
   overrides: [
     {

@@ -1,101 +1,40 @@
-import React, {
-  useMemo,
-  createContext,
-  useState,
-  useEffect,
-  memo,
-} from 'react';
+import React, { useMemo, memo } from 'react';
 import { RectangularCoordinate } from '~/components/RectangularCoordinate';
-import { Box, BoxCoordinateValues } from '~/components/Box';
+import { BoxElement } from '~/components/BoxElement';
 import { Console } from '~/components/Console';
-import { useWindowSize } from '~/hooks/useWindowSize';
+import { useRecoilState } from 'recoil';
+import { Box, boxesState } from './state/boxes';
 import { ConsoleContentBox } from './components/ConsoleContentBox';
 
 const MemorizedConsole = memo(Console);
 
-type AppState = {
-  boxesCoordinateValues: {
-    [name: string]: BoxCoordinateValues;
-  };
-  boundary: {
-    width: number;
-    height: number;
-  };
-};
-
-export const AppStateContext = createContext<{
-  appState: AppState;
-  setAppState: React.Dispatch<React.SetStateAction<AppState>>;
-}>({
-  appState: {
-    boxesCoordinateValues: {},
-    boundary: {
-      width: 0,
-      height: 0,
-    },
-  },
-  setAppState: (appState) => {
-    return appState;
-  },
-});
-
 function App() {
-  const windowSize = useWindowSize();
-  const [appState, setAppState] = useState<AppState>({
-    boxesCoordinateValues: {},
-    boundary: {
-      width: windowSize.innerWidth * 1.5,
-      height: windowSize.innerHeight * 1.5,
-    },
-  });
-  const boxes = useMemo(() => ['Box1'], []);
+  const [boxes, setBoxes] = useRecoilState(boxesState);
   const boxTabs = useMemo(
     () =>
-      boxes.map((name) => ({
-        tab: name,
-        render: <ConsoleContentBox boxName={name} />,
+      boxes.map((box) => ({
+        tab: box.name,
+        render: <ConsoleContentBox box={box} />,
       })),
     [boxes],
   );
 
-  useEffect(() => {
-    setAppState((state) => ({
-      ...state,
-      boundary: {
-        width: windowSize.innerWidth * 1.5,
-        height: windowSize.innerHeight * 1.5,
-      },
-    }));
-  }, [windowSize]);
+  const handleChangeBox = (changedBox: Box) => {
+    setBoxes((boxes) => {
+      const index = boxes.findIndex((box) => box.name === changedBox.name);
+      if (index === -1) return boxes;
+      return [...boxes.slice(0, index), changedBox, ...boxes.slice(index + 1)];
+    });
+  };
 
   return (
-    <AppStateContext.Provider
-      value={useMemo(() => ({ appState, setAppState }), [appState])}
-    >
+    <>
       <RectangularCoordinate />
-      {useMemo(
-        () =>
-          boxes.map((name) => {
-            return (
-              <Box
-                key={name}
-                name={name}
-                onChangeBoxCoordinateValues={(coordinateValues) => {
-                  setAppState((state) => ({
-                    ...state,
-                    boxesCoordinateValues: {
-                      ...state.boxesCoordinateValues,
-                      [name]: coordinateValues,
-                    },
-                  }));
-                }}
-              />
-            );
-          }),
-        [boxes],
-      )}
+      {boxes.map((box) => (
+        <BoxElement key={box.name} box={box} onChangeBox={handleChangeBox} />
+      ))}
       <MemorizedConsole additionalTabs={boxTabs} />
-    </AppStateContext.Provider>
+    </>
   );
 }
 
