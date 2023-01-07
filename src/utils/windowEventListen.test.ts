@@ -21,8 +21,8 @@ test('it should listen window event with addWindowEventListener', () => {
   addWindowEventListener('resize', mockListener2);
 
   window.dispatchEvent(new Event('resize'));
-  expect(mockListener).toBeCalledTimes(2);
-  expect(mockListener2).toBeCalledTimes(1);
+  expect(mockListener).toHaveBeenCalledTimes(2);
+  expect(mockListener2).toHaveBeenCalledTimes(1);
 });
 
 test('it should add only one window event listener', () => {
@@ -35,16 +35,16 @@ test('it should add only one window event listener', () => {
     /* nothing */
   });
 
-  expect(mockWindowEventListener).toBeCalledTimes(1);
+  expect(mockWindowEventListener).toHaveBeenCalledTimes(1);
 });
 
 test('it should remove listener with removeWindowEventListener', () => {
   const mockListener = jest.fn();
   addWindowEventListener('resize', mockListener);
   window.dispatchEvent(new Event('resize'));
-  expect(mockListener).toBeCalledTimes(1);
+  expect(mockListener).toHaveBeenCalledTimes(1);
 
   removeWindowEventListener('resize', mockListener);
   window.dispatchEvent(new Event('resize'));
-  expect(mockListener).toBeCalledTimes(1);
+  expect(mockListener).toHaveBeenCalledTimes(1);
 });
