@@ -1,6 +1,9 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useBoundary } from '~/hooks/useBoundary';
-import { useWindowPosition } from '~/hooks/useWindowPosition';
+import {
+  addWindowEventListener,
+  removeWindowEventListener,
+} from '~/utils/windowEventListen';
 
 type CoordinateProps = {
   unit?: number;
@@ -9,7 +12,26 @@ type CoordinateProps = {
 function CoordinateNumbers(props: CoordinateProps) {
   const { unit = 100 } = props;
   const { width, height } = useBoundary();
-  const { pageXOffset, pageYOffset } = useWindowPosition();
+  const [windowPosition, setWindowPosition] = useState<{ [k: string]: number }>(
+    {
+      pageXOffset: window.pageXOffset,
+      pageYOffset: window.pageYOffset,
+    },
+  );
+
+  useEffect(() => {
+    const handleWindowScroll = () => {
+      setWindowPosition({
+        pageXOffset: window.pageXOffset,
+        pageYOffset: window.pageYOffset,
+      });
+    };
+
+    addWindowEventListener('scroll', handleWindowScroll);
+    return () => {
+      removeWindowEventListener('scroll', handleWindowScroll);
+    };
+  }, []);
 
   return (
     <>
@@ -28,7 +50,10 @@ function CoordinateNumbers(props: CoordinateProps) {
                   style={{
                     position: 'absolute',
                     transform: `translate(${
-                      index * unit - (pageXOffset < 0 ? 0 : pageXOffset)
+                      index * unit -
+                      (windowPosition.pageXOffset < 0
+                        ? 0
+                        : windowPosition.pageXOffset)
                     }px, 0px)`,
                     color: '#999999',
                   }}
@@ -37,9 +62,10 @@ function CoordinateNumbers(props: CoordinateProps) {
                 </div>
               );
             }),
-          [width, pageXOffset, unit],
+          [width, windowPosition.pageXOffset, unit],
         )}
       </div>
+
       {/* y coordinate line numbers */}
       <div
         style={{
@@ -55,7 +81,10 @@ function CoordinateNumbers(props: CoordinateProps) {
                   style={{
                     position: 'absolute',
                     transform: `translate(0px, ${
-                      index * unit - (pageYOffset < 0 ? 0 : pageYOffset)
+                      index * unit -
+                      (windowPosition.pageYOffset < 0
+                        ? 0
+                        : windowPosition.pageYOffset)
                     }px)`,
                     color: '#999999',
                   }}
@@ -64,7 +93,7 @@ function CoordinateNumbers(props: CoordinateProps) {
                 </div>
               );
             }),
-          [height, pageYOffset, unit],
+          [height, windowPosition.pageYOffset, unit],
         )}
       </div>
     </>

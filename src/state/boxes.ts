@@ -19,7 +19,7 @@ export const boxesState = atom<Array<Box>>({
   key: 'boxes',
   default: [
     {
-      name: 'box1',
+      name: 'box',
     },
   ],
 });
