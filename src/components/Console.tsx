@@ -187,7 +187,7 @@ export function Console() {
         onChange={(event) => setFilter(event.target.value)}
       />
       {Array.from(Object.entries(log))
-        .filter(([key]) => key.includes(filter))
+        .filter(([key]) => key.toLowerCase().includes(filter.toLowerCase()))
         .sort(([key1], [key2]) => {
           return key1.localeCompare(key2);
         })
