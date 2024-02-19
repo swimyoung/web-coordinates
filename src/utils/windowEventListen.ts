@@ -1,7 +1,12 @@
-let listeners: { [eventName: string]: any[] } = {};
-let windowEventListeners: {
+interface EventListeners {
+  [eventName: string]: EventListener[];
+}
+interface WindowEventListers {
   [eventName: string]: EventListener;
-} = {};
+}
+
+let listeners: EventListeners = {};
+let windowEventListeners: WindowEventListers = {};
 
 export function clearGlobalState(): void {
   listeners = {};
@@ -17,7 +22,7 @@ export function clearGlobalState(): void {
  */
 export const addWindowEventListener = (
   eventName: string,
-  eventListener: (event: any) => void,
+  eventListener: EventListener,
 ): boolean => {
   if (!eventListener) {
     return false;
@@ -28,7 +33,7 @@ export const addWindowEventListener = (
   }
 
   if (listeners[eventName].length === 0) {
-    windowEventListeners[eventName] = (event: any) => {
+    windowEventListeners[eventName] = (event) => {
       listeners[eventName].forEach((listener) => listener(event));
     };
     window.addEventListener(eventName, windowEventListeners[eventName]);
@@ -42,7 +47,7 @@ export const addWindowEventListener = (
  */
 export const removeWindowEventListener = (
   eventName: string,
-  eventListener: (event: any) => void,
+  eventListener: EventListener,
 ): boolean => {
   if (!eventListener || !listeners[eventName]) {
     return false;
